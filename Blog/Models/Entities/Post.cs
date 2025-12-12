@@ -9,9 +9,6 @@ namespace Blog.Models.Entities
         [Required]
         [StringLength(300)]
         public string? Title { get; set; }
-        [Required]
-        public string? Content { get; set; }
-        public string? Author { get; set; }
 
         [ValidateNever]
         public List<Comment>? Comments { get; set; }
