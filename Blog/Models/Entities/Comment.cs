@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Blog.Models.Entities
 {
-    public class CommentEntity : BaseEntity
+    public class Comment : Base
     {
         public string? Content { get; set; }
         public string? Author { get; set; }
@@ -12,6 +12,6 @@ namespace Blog.Models.Entities
         [ForeignKey(nameof(Post))]
         public int PostId { get; set; }
         [ValidateNever]
-        public PostEntity? Post { get; set; }
+        public Post? Post { get; set; }
     }
 }

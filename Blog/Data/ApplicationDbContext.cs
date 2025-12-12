@@ -10,7 +10,7 @@ namespace Blog.Data
         {
         }
 
-        public DbSet<PostEntity> Posts { get; set; }
-        public DbSet<CommentEntity> Comments { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
     }
 }
