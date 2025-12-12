@@ -2,13 +2,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Blog.Models
+namespace Blog.Models.Entities
 {
-    public class Post
+    public class PostEntity : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
-
         [Required]
         [StringLength(300)]
         public string? Title { get; set; }
@@ -16,12 +13,9 @@ namespace Blog.Models
         public string? Content { get; set; }
         public string? Author { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-
         [ForeignKey(nameof(Comment))]
-        public List<Comment>? Comments { get; set; }
+        public List<CommentEntity>? Comments { get; set; }
         [ValidateNever]
-        public Comment? Comment { get; set; }
+        public CommentEntity? Comment { get; set; }
     }
 }
