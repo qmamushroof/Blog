@@ -13,8 +13,6 @@ namespace Blog.Models.Entities
         public string? Content { get; set; }
         public string? Author { get; set; }
 
-        [ForeignKey(nameof(Comment))]
-        public int CommentId { get; set; }
         [ValidateNever]
         public List<Comment>? Comments { get; set; }
     }

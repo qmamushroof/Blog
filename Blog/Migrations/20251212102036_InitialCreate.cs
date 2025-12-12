@@ -20,7 +20,6 @@ namespace Blog.Migrations
                     Title = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CommentId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

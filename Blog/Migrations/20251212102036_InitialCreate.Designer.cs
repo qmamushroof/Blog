@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251212095131_InitialCreate")]
+    [Migration("20251212102036_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -65,9 +65,6 @@ namespace Blog.Migrations
 
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CommentId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
