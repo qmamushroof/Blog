@@ -1,10 +1,13 @@
 ﻿using Blog.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Blog.Models.Entities
 {
-    public class Post : Base
+    public class Post
     {
+        [Key]
+        public int Id { get; set; }
         public string? Title { get; set; }
         public string? Slug { get; set; }
         public string? Content { get; set; }
@@ -20,9 +23,9 @@ namespace Blog.Models.Entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        //[ForeignKey(nameof(Category))]
+        [ForeignKey(nameof(Category))]
         public int? CategoryId { get; set; }
-        //public Category? Category { get; set; }
+        public Category? Category { get; set; }
         //[ForeignKey(nameof(ApplicationUser))]
         public string? AuthorId { get; set; }
         //public ApplicationUser? Author { get; set; }
