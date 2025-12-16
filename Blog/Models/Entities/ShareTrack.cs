@@ -10,7 +10,7 @@ namespace Blog.Models.Entities
 
         public string? Platform { get; set; }
         public string? ShareUrl { get; set; }
-        public DateTime SharedAt { get; set; }
+        public DateTime SharedAt { get; set; } = DateTime.UtcNow;
 
         public string? UserIp { get; set; }
 
