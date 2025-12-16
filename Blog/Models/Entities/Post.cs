@@ -9,9 +9,9 @@ namespace Blog.Models.Entities
         [Key]
         public int Id { get; set; }
 
-        public string Title { get; set; } = String.Empty;
-        public string Slug { get; set; } = String.Empty;
-        public string Content { get; set; } = String.Empty;
+        public string Title { get; set; } = string.Empty;
+        public string Slug { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
 
         public Status Status { get; set; } = Status.Draft;
         public Priority Priority { get; set; } = Priority.Normal;
@@ -29,7 +29,7 @@ namespace Blog.Models.Entities
         public Category? Category { get; set; }
 
         //[ForeignKey(nameof(ApplicationUser))]
-        public string AuthorId { get; set; } = String.Empty;
+        public string AuthorId { get; set; } = string.Empty;
         //public ApplicationUser? Author { get; set; }
 
         public ICollection<PostTag> PostTags { get; set; } = new List<PostTag>();

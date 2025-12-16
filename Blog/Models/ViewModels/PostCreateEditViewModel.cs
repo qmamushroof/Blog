@@ -12,16 +12,14 @@ namespace Blog.Models.ViewModels
         public string Title { get; set; } = string.Empty;
         [Required]
         public string Content { get; set; } = string.Empty;
-        public string Author { get; set; } = String.Empty;
-
+        public string Author { get; set; } = string.Empty;
 
         public Status Status { get; set; } = Status.Draft;
         public Priority Priority { get; set; } = Priority.Normal;
 
-
         public DateTime? Deadline { get; set; }
 
-        public string? ExistingHeaderImageUrl { get; set; }
+        public string? HeaderImageUrl { get; set; }
         public IFormFile? HeaderImageFile { get; set; }
 
         public int? CategoryId { get; set; }
