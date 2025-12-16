@@ -8,6 +8,7 @@ namespace Blog.Models.Entities
     {
         [Key]
         public int Id { get; set; }
+
         public string? Title { get; set; }
         public string? Slug { get; set; }
         public string? Content { get; set; }
@@ -26,12 +27,13 @@ namespace Blog.Models.Entities
         [ForeignKey(nameof(Category))]
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }
+
         //[ForeignKey(nameof(ApplicationUser))]
         public string? AuthorId { get; set; }
         //public ApplicationUser? Author { get; set; }
 
-        //public ICollection<PostTag>? PostTags { get; set; } = new List<PostTag>();
-        //public ICollection<ShareTrack>? ShareTracks { get; set; } = new List<ShareTrack>();
+        public ICollection<PostTag>? PostTags { get; set; } = new List<PostTag>();
+        public ICollection<ShareTrack>? ShareTracks { get; set; } = new List<ShareTrack>();
 
         public int ShareCount { get; set; } = 0;
     }
