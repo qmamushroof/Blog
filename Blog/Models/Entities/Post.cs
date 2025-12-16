@@ -9,15 +9,15 @@ namespace Blog.Models.Entities
         [Key]
         public int Id { get; set; }
 
-        public string? Title { get; set; }
-        public string? Slug { get; set; }
-        public string? Content { get; set; }
+        public string Title { get; set; } = String.Empty;
+        public string Slug { get; set; } = String.Empty;
+        public string Content { get; set; } = String.Empty;
 
         public Status Status { get; set; } = Status.Draft;
         public Priority Priority { get; set; } = Priority.Normal;
 
-        public DateTime PublishedAt { get; set; }
-        public DateTime Deadline { get; set; }
+        public DateTime? PublishedAt { get; set; }
+        public DateTime? Deadline { get; set; }
 
         public string? HeaderImageUrl { get; set; }
 
@@ -29,11 +29,11 @@ namespace Blog.Models.Entities
         public Category? Category { get; set; }
 
         //[ForeignKey(nameof(ApplicationUser))]
-        public string? AuthorId { get; set; }
+        public string AuthorId { get; set; } = String.Empty;
         //public ApplicationUser? Author { get; set; }
 
-        public ICollection<PostTag>? PostTags { get; set; } = new List<PostTag>();
-        public ICollection<ShareTrack>? ShareTracks { get; set; } = new List<ShareTrack>();
+        public ICollection<PostTag> PostTags { get; set; } = new List<PostTag>();
+        public ICollection<ShareTrack> ShareTracks { get; set; } = new List<ShareTrack>();
 
         public int ShareCount { get; set; } = 0;
     }
