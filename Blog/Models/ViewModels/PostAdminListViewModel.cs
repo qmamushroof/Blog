@@ -1,6 +1,8 @@
-﻿namespace Blog.Models.ViewModels
+﻿using Blog.Models.Enums;
+
+namespace Blog.Models.ViewModels
 {
-    public class PostListViewModel
+    public class PostAdminListViewModel
     {
         public int Id { get; set; }
 
@@ -10,7 +12,14 @@
 
         public string Category { get; set; } = string.Empty;
 
-        public DateTime PublishedAt { get; set; }
+        public Status Status { get; set; }
+        public Priority Priority { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? PublishedAt { get; set; }
+
+        public DateTime? Deadline { get; set; }
 
         public string? HeaderImageUrl { get; set; }
 
