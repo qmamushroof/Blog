@@ -33,10 +33,6 @@ namespace Blog.Data
 
                 entity.Property(p => p.AuthorId).IsRequired();
 
-                //entity.Property(p => p.CreatedAt).ValueGeneratedOnAdd().HasDefaultValueSql("GETUTCDATE()");
-
-                //entity.Property(p => p.UpdatedAt).ValueGeneratedOnAddOrUpdate().HasDefaultValueSql("GETUTCDATE()");
-
                 entity.HasOne(p => p.Category).WithMany(c => c.Posts)
                 .HasForeignKey(p => p.CategoryId).OnDelete(DeleteBehavior.SetNull);
             });
