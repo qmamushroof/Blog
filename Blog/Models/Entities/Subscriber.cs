@@ -8,6 +8,6 @@ namespace Blog.Models.Entities
         public int Id { get; set; }
 
         public string Email { get; set; } = string.Empty;
-        public DateTime SubscribedAt { get; set; }
+        public DateTime SubscribedAt { get; set; } = DateTime.UtcNow;
     }
 }

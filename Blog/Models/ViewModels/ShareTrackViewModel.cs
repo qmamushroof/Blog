@@ -11,6 +11,7 @@
         public DateTime SharedAt { get; set; }
 
         public string? UserIp { get; set; }
+
         public int PostId { get; set; }
     }
 }
