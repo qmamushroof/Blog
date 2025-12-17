@@ -1,4 +1,5 @@
-﻿using Blog.Models.Entities;
+﻿using Blog.Data.Seeding;
+using Blog.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Data
@@ -90,6 +91,8 @@ namespace Blog.Data
                 entity.HasOne(st => st.Post).WithMany(p => p.ShareTracks)
                 .HasForeignKey(st => st.PostId).OnDelete(DeleteBehavior.SetNull);
             });
+
+            BlogSeeder.Seed(modelBuilder);
         }
     }
 }
