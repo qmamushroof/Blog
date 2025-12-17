@@ -8,6 +8,7 @@ namespace Blog.Models.Entities
         [Key]
         public int Id { get; set; }
 
+        [MaxLength(100)]
         public string? Platform { get; set; }
         public string? ShareUrl { get; set; }
         public DateTime SharedAt { get; set; } = DateTime.UtcNow;

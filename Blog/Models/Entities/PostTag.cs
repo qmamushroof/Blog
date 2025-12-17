@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Blog.Models.Entities
+﻿namespace Blog.Models.Entities
 {
     public class PostTag
     {
