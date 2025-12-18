@@ -11,8 +11,8 @@ namespace Blog.Services.Interfaces
         Task<Post> GetPostByIdAsync(int id);
         Task<Post> GetPostBySlugAsync(string slug);
 
-        Task CreatePostAsync(PostCreateEditViewModel viewModel, string currentUserId);
-        Task UpdatePostAsync(PostCreateEditViewModel viewModel, string currentUserId);
+        Task CreatePostAsync(PostCreateEditViewModel viewModel);
+        Task UpdatePostAsync(PostCreateEditViewModel viewModel);
         Task DeletePostByIdAsync(int id);
     }
 }
