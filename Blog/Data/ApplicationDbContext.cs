@@ -76,7 +76,6 @@ namespace Blog.Data
                 entity.HasKey(s => s.Id);
 
                 entity.HasIndex(s => s.Email).IsUnique();
-
                 entity.Property(s => s.Email).IsRequired().HasMaxLength(200);
             });
 

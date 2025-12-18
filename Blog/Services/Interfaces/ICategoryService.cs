@@ -9,8 +9,7 @@ namespace Blog.Services.Interfaces
         Task<Category> GetCategoryBySlugAsync(string slug);
         
         Task CreateCategoryAsync(CategoryCreateEditViewModel viewModel);
-        Task UpdateCategoryAsync(CategoryCreateEditViewModel viewModel);
-        
+        Task UpdateCategoryAsync(CategoryCreateEditViewModel viewModel);        
         Task DeleteCategoryByIdAsync(int id);
     }
 }

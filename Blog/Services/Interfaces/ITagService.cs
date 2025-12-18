@@ -9,8 +9,7 @@ namespace Blog.Services.Interfaces
         Task<Tag> GetTagBySlugAsync(string slug);
         
         Task CreateTagAsync(TagCreateEditViewModel viewModel);
-        Task UpdateTagAsync(TagCreateEditViewModel viewModel);
-        
+        Task UpdateTagAsync(TagCreateEditViewModel viewModel);        
         Task DeleteTagByIdAsync(int id);
     }
 }
