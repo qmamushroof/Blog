@@ -5,7 +5,5 @@ namespace Blog.Services.Interfaces
 {
     public interface ITagService : IService<Tag>
     {
-        Task CreateTagAsync(TagCreateEditViewModel viewModel);
-        Task UpdateTagAsync(TagCreateEditViewModel viewModel);
     }
 }

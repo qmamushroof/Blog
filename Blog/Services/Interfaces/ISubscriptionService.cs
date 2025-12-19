@@ -5,6 +5,5 @@ namespace Blog.Services.Interfaces
 {
     public interface ISubscriptionService : IService<Subscriber>
     {
-        Task<Subscriber> CreateSubscriberAsync(SubscribeViewModel viewModel);
     }
 }

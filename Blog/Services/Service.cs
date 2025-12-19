@@ -9,7 +9,7 @@ namespace Blog.Services
 
         public Service(IRepository<T> repository) => _repository = repository;
 
-        public async Task<int> AddAsync(T entity)
+        public async Task<int> CreateAsync(T entity)
         {
             await _repository.AddAsync(entity);
             return await _repository.SaveChangesAsync();
@@ -21,22 +21,17 @@ namespace Blog.Services
 
         public async Task<T?> GetBySlugAsync(string slug) => await _repository.GetBySlugAsync(slug);
 
-
         public async Task<int> UpdateAsync(T entity)
         {
             _repository.Update(entity);
-            return await _repository.SaveChangesAsync();
-        }
-        public async Task<int> RemoveAsync(T entity)
-        {
-            _repository.Remove(entity);
             return await _repository.SaveChangesAsync();
         }
 
         public async Task<int> DeleteByIdAsync(int id)
         {
             var entity = await GetByIdAsync(id);
-            return await RemoveAsync(entity!);
+            _repository.Remove(entity!);
+            return await _repository.SaveChangesAsync();
         }
     }
 }

@@ -6,9 +6,8 @@
         Task<T?> GetBySlugAsync(string slug);
 
         Task<IEnumerable<T>> GetAllAsync();
-        Task<int> AddAsync(T entity);
+        Task<int> CreateAsync(T entity);
         Task<int> UpdateAsync(T entity);
-        Task<int> RemoveAsync(T entity);
         Task<int> DeleteByIdAsync(int id);
     }
 }

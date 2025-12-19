@@ -5,11 +5,7 @@ namespace Blog.Services.Interfaces
 {
     public interface IPostService : IService<Post>
     {        
-        Task<List<PostListViewModel>> GetPublishedPostsAsync();
-        Task<List<PostAdminListViewModel>> GetPostsAsync();
-
-        Task CreatePostAsync(PostCreateEditViewModel viewModel);
-        Task UpdatePostAsync(PostCreateEditViewModel viewModel);
+        Task<List<Post>> GetPublishedPostsAsync();
         Task SoftDeletePostByIdAsync(int id);
     }
 }
