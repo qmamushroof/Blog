@@ -21,14 +21,13 @@ namespace Blog.Models.ViewModels
 
         public string? HeaderImageUrl { get; set; }
         public IFormFile? HeaderImageFile { get; set; }
+        [Display(Name = "Remove current header image?")]
+        public bool RemoveHeaderImage { get; set; } = false;
 
         public int? CategoryId { get; set; }
         public IEnumerable<SelectListItem>? Categories { get; set; }
 
         public ICollection<int> SelectedTagIds { get; set; } = new List<int>();
         public IEnumerable<SelectListItem>? Tags { get; set; }
-
-        [Display(Name = "Remove current header image?")]
-        public bool RemoveHeaderImage { get; set; } = false;
     }
 }
