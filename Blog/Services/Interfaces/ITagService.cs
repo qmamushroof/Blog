@@ -7,6 +7,5 @@ namespace Blog.Services.Interfaces
     {
         Task CreateTagAsync(TagCreateEditViewModel viewModel);
         Task UpdateTagAsync(TagCreateEditViewModel viewModel);
-        Task DeleteTagByIdAsync(int id);
     }
 }
