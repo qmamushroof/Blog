@@ -34,6 +34,9 @@ namespace Blog.Data
 
                 entity.Property(p => p.AuthorId).IsRequired();
 
+                entity.Property(p => p.Status).HasConversion<string>();
+                entity.Property(p => p.Priority).HasConversion<string>();
+
                 entity.HasOne(p => p.Category).WithMany(c => c.Posts)
                 .HasForeignKey(p => p.CategoryId).OnDelete(DeleteBehavior.SetNull);
             });
