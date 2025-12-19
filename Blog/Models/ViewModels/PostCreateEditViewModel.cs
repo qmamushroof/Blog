@@ -27,5 +27,8 @@ namespace Blog.Models.ViewModels
 
         public ICollection<int> SelectedTagIds { get; set; } = new List<int>();
         public IEnumerable<SelectListItem>? Tags { get; set; }
+
+        [Display(Name = "Remove current header image?")]
+        public bool RemoveHeaderImage { get; set; } = false;
     }
 }
