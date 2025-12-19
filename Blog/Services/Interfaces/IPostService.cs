@@ -13,6 +13,6 @@ namespace Blog.Services.Interfaces
 
         Task CreatePostAsync(PostCreateEditViewModel viewModel);
         Task UpdatePostAsync(PostCreateEditViewModel viewModel);
-        Task DeletePostByIdAsync(int id);
+        Task SoftDeletePostByIdAsync(int id);
     }
 }
