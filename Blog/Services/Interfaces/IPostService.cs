@@ -3,13 +3,10 @@ using Blog.Models.ViewModels;
 
 namespace Blog.Services.Interfaces
 {
-    public interface IPostService
-    {
+    public interface IPostService : IService<Post>
+    {        
         Task<List<PostListViewModel>> GetPublishedPostsAsync();
         Task<List<PostAdminListViewModel>> GetPostsAsync();
-
-        Task<Post> GetPostByIdAsync(int id);
-        Task<Post> GetPostBySlugAsync(string slug);
 
         Task CreatePostAsync(PostCreateEditViewModel viewModel);
         Task UpdatePostAsync(PostCreateEditViewModel viewModel);

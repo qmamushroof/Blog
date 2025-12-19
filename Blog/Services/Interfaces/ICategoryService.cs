@@ -3,7 +3,7 @@ using Blog.Models.ViewModels;
 
 namespace Blog.Services.Interfaces
 {
-    public interface ICategoryService
+    public interface ICategoryService : IService<Category>
     {
         Task<Category> GetCategoryByIdAsync(int id);
         Task<Category> GetCategoryBySlugAsync(string slug);

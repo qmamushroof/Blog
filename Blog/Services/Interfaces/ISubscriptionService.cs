@@ -3,9 +3,8 @@ using Blog.Models.ViewModels;
 
 namespace Blog.Services.Interfaces
 {
-    public interface ISubscriptionService
+    public interface ISubscriptionService : IService<Subscriber>
     {
-        Task<List<Subscriber>> GetSubscribersAsync();
         Task<Subscriber> CreateSubscriberAsync(SubscribeViewModel viewModel);
     }
 }

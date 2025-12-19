@@ -3,13 +3,10 @@ using Blog.Models.ViewModels;
 
 namespace Blog.Services.Interfaces
 {
-    public interface ITagService
+    public interface ITagService : IService<Tag>
     {
-        Task<Tag> GetTagByIdAsync(int id);
-        Task<Tag> GetTagBySlugAsync(string slug);
-        
         Task CreateTagAsync(TagCreateEditViewModel viewModel);
-        Task UpdateTagAsync(TagCreateEditViewModel viewModel);        
+        Task UpdateTagAsync(TagCreateEditViewModel viewModel);
         Task DeleteTagByIdAsync(int id);
     }
 }
