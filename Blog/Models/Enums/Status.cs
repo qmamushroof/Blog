@@ -3,6 +3,7 @@
     public enum Status
     {
         Draft,
-        Published
+        Published,
+        SoftDeleted
     }
 }

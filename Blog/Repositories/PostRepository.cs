@@ -15,9 +15,11 @@ namespace Blog.Repositories
         public async Task<IEnumerable<Post>> GetPublishedPostsAsync()
             => await _context.Posts.Where(p => p.Status == Status.Published).ToListAsync();
 
-        public Task SoftDeletePostByIdAsync(int id)
+        public async Task SoftDeletePostByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var post = await GetByIdAsync(id);
+            post!.DeletedAt = DateTime.UtcNow;
+            post!.Status = Status.SoftDeleted;
         }
     }
 }
