@@ -8,11 +8,7 @@ namespace Blog.Services
     {
         private readonly IPostRepository _postRepository;
         public PostService(IPostRepository postRepository) : base(postRepository) => _postRepository = postRepository;
-        public async Task<List<Post>> GetPublishedPostsAsync()
-        {
-            await _postRepository.GetPublishedPostsAsync();
-            throw new NotImplementedException();
-        }
+        public async Task<ICollection<Post>> GetPublishedPostsAsync() => await _postRepository.GetPublishedPostsAsync();
 
 
         public Task SoftDeletePostByIdAsync(int id)

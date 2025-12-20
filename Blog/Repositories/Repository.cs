@@ -1,7 +1,6 @@
 ﻿using Blog.Data;
 using Blog.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Blog.Repositories
 {
