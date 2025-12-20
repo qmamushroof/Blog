@@ -5,6 +5,5 @@ namespace Blog.Repositories.Interfaces
     public interface IPostRepository : IRepository<Post>
     {
         Task<ICollection<Post>> GetPublishedPostsAsync();
-        Task SoftDeletePostByIdAsync(int id);
     }
 }

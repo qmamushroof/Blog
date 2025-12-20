@@ -1,4 +1,5 @@
 ﻿using Blog.Models.Entities;
+using Blog.Models.Enums;
 using Blog.Repositories.Interfaces;
 using Blog.Services.Interfaces;
 
@@ -7,13 +8,17 @@ namespace Blog.Services
     public class PostService : Service<Post>, IPostService
     {
         private readonly IPostRepository _postRepository;
+
         public PostService(IPostRepository postRepository) : base(postRepository) => _postRepository = postRepository;
+
         public async Task<ICollection<Post>> GetPublishedPostsAsync() => await _postRepository.GetPublishedPostsAsync();
 
-
-        public Task SoftDeletePostByIdAsync(int id)
+        public async Task SoftDeletePostByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var post = await _postRepository.GetByIdAsync(id);
+            post!.Status = Status.SoftDeleted;
+            post.DeletedAt = DateTime.UtcNow;
+            await _postRepository.SaveChangesAsync();
         }
     }
 }

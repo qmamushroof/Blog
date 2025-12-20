@@ -14,12 +14,5 @@ namespace Blog.Repositories
 
         public async Task<ICollection<Post>> GetPublishedPostsAsync()
             => await _context.Posts.Where(p => p.Status == Status.Published).ToListAsync();
-
-        public async Task SoftDeletePostByIdAsync(int id)
-        {
-            var post = await GetByIdAsync(id);
-            post!.DeletedAt = DateTime.UtcNow;
-            post!.Status = Status.SoftDeleted;
-        }
     }
 }
