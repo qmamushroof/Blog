@@ -14,5 +14,26 @@ namespace Blog.Repositories
 
         public async Task<ICollection<Post>> GetPublishedPostsAsync()
             => await _context.Posts.Where(p => p.Status == PostStatus.Published).ToListAsync();
+
+        public async Task UpdateAsync(Post post, List<int> selectedTagIds)
+        {
+            var existingPostTagsOfThisPost
+                = await _context.PostTags.Where(pt => pt.PostId == post.Id).ToListAsync();
+
+
+            var postTagsToBeRemovedFromThisPost =
+                existingPostTagsOfThisPost.Where(pt => !selectedTagIds.Contains(pt.TagId)).ToList();
+
+            _context.PostTags.RemoveRange(postTagsToBeRemovedFromThisPost);
+
+
+            var tagIdsToBeAddedToThisPost =
+                selectedTagIds.Where(tagId => !existingPostTagsOfThisPost.Any(pt => pt.TagId == tagId));
+
+            var postTagsToBeAddedToThisPost =
+                tagIdsToBeAddedToThisPost.Select(tagId => new PostTag { PostId = post.Id, TagId = tagId }).ToList();
+
+            await _context.PostTags.AddRangeAsync(postTagsToBeAddedToThisPost);
+        }
     }
 }
