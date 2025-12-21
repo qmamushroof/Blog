@@ -12,7 +12,7 @@ namespace Blog.Repositories
 
         public PostRepository(ApplicationDbContext context) : base(context) => _context = context;
 
-        public async Task<ICollection<Post>> GetPublishedPostsAsync()   
+        public async Task<ICollection<Post>> GetPublishedPostsAsync()
             => await _context.Posts.Where(p => p.Status == Status.Published).ToListAsync();
     }
 }

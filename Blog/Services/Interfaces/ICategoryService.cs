@@ -4,6 +4,6 @@ using Blog.Models.ViewModels;
 namespace Blog.Services.Interfaces
 {
     public interface ICategoryService : IService<Category>
-    {       
+    {
     }
 }

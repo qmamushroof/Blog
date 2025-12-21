@@ -13,12 +13,12 @@ namespace Blog.Services
 
         public async Task<ICollection<Post>> GetPublishedPostsAsync() => await _postRepository.GetPublishedPostsAsync();
 
-        public async Task SoftDeletePostByIdAsync(int id)
+        public async Task<int> SoftDeletePostByIdAsync(int id)
         {
             var post = await _postRepository.GetByIdAsync(id);
             post!.Status = Status.SoftDeleted;
             post.DeletedAt = DateTime.UtcNow;
-            await _postRepository.SaveChangesAsync();
+            return await _postRepository.SaveChangesAsync();
         }
     }
 }
