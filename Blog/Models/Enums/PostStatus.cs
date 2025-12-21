@@ -1,6 +1,6 @@
 ﻿namespace Blog.Models.Enums
 {
-    public enum Status
+    public enum PostStatus
     {
         Draft,
         Published,

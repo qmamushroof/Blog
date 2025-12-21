@@ -1,4 +1,6 @@
-﻿namespace Blog.Models.ViewModels
+﻿using Blog.Models.Enums;
+
+namespace Blog.Models.ViewModels
 {
     public class SubscriberListViewModel
     {
@@ -6,5 +8,7 @@
 
         public string Email { get; set; } = string.Empty;
         public DateTime SubscribedAt { get; set; }
+        public string Status { get; set; }
+        public DateTime? UnsubscribedAt { get; set; }
     }
 }

@@ -12,8 +12,8 @@ namespace Blog.Models.ViewModels
 
         public string Category { get; set; } = string.Empty;
 
-        public Status Status { get; set; }
-        public Priority Priority { get; set; }
+        public PostStatus Status { get; set; }
+        public PostPriority Priority { get; set; }
 
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

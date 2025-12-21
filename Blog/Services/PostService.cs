@@ -16,7 +16,7 @@ namespace Blog.Services
         public async Task<int> SoftDeletePostByIdAsync(int id)
         {
             var post = await _postRepository.GetByIdAsync(id);
-            post!.Status = Status.SoftDeleted;
+            post!.Status = PostStatus.SoftDeleted;
             post.DeletedAt = DateTime.UtcNow;
             return await _postRepository.SaveChangesAsync();
         }

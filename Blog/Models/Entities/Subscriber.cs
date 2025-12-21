@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Blog.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Blog.Models.Entities
 {
@@ -9,5 +10,7 @@ namespace Blog.Models.Entities
 
         public string Email { get; set; } = string.Empty;
         public DateTime SubscribedAt { get; set; } = DateTime.UtcNow;
+        public SubscriptionStatus Status { get; set; } = SubscriptionStatus.Subscribed;
+        public DateTime? UnsubscribedAt { get; set; }
     }
 }

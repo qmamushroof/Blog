@@ -14,8 +14,8 @@ namespace Blog.Models.ViewModels
         public string Content { get; set; } = string.Empty;
         public string Author { get; set; } = string.Empty;
 
-        public Status Status { get; set; } = Status.Draft;
-        public Priority Priority { get; set; } = Priority.Normal;
+        public PostStatus Status { get; set; } = PostStatus.Draft;
+        public PostPriority Priority { get; set; } = PostPriority.Normal;
 
         public DateTime? Deadline { get; set; }
 

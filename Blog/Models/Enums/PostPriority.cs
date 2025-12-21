@@ -1,6 +1,6 @@
 ﻿namespace Blog.Models.Enums
 {
-    public enum Priority
+    public enum PostPriority
     {
         Normal,
         Hot,

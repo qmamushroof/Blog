@@ -13,8 +13,8 @@ namespace Blog.Models.Entities
         public string Slug { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
 
-        public Status Status { get; set; } = Status.Draft;
-        public Priority Priority { get; set; } = Priority.Normal;
+        public PostStatus Status { get; set; } = PostStatus.Draft;
+        public PostPriority Priority { get; set; } = PostPriority.Normal;
 
         public DateTime? PublishedAt { get; set; }
         public DateTime? Deadline { get; set; }

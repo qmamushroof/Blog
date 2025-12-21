@@ -80,6 +80,8 @@ namespace Blog.Data
 
                 entity.HasIndex(s => s.Email).IsUnique();
                 entity.Property(s => s.Email).IsRequired().HasMaxLength(200);
+
+                entity.Property(s => s.Status).HasConversion<string>();
             });
 
             modelBuilder.Entity<ShareTrack>(entity =>

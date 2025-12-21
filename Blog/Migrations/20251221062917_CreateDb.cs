@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Blog.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class CreateDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,7 +35,9 @@ namespace Blog.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    SubscribedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    SubscribedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UnsubscribedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -66,13 +68,14 @@ namespace Blog.Migrations
                     Title = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     Slug = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    Priority = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Priority = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PublishedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Deadline = table.Column<DateTime>(type: "datetime2", nullable: true),
                     HeaderImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: true),
                     AuthorId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShareCount = table.Column<int>(type: "int", nullable: false)
@@ -159,8 +162,8 @@ namespace Blog.Migrations
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "AuthorId", "CategoryId", "Content", "CreatedAt", "Deadline", "HeaderImageUrl", "Priority", "PublishedAt", "ShareCount", "Slug", "Status", "Title", "UpdatedAt" },
-                values: new object[] { 1, "admin-temp-001", 1, "<p>This is our first blog post...</p>", new DateTime(2025, 12, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, 2, new DateTime(2025, 12, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 15, "welcome-to-studynet-blog", 1, "Welcome to Studynet Blog", new DateTime(2025, 12, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                columns: new[] { "Id", "AuthorId", "CategoryId", "Content", "CreatedAt", "Deadline", "DeletedAt", "HeaderImageUrl", "Priority", "PublishedAt", "ShareCount", "Slug", "Status", "Title", "UpdatedAt" },
+                values: new object[] { 1, "admin-temp-001", 1, "<p>This is our first blog post...</p>", new DateTime(2025, 12, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Pinned", new DateTime(2025, 12, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 15, "welcome-to-studynet-blog", "Published", "Welcome to Studynet Blog", new DateTime(2025, 12, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
                 table: "PostTags",
