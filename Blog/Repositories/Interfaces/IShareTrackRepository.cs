@@ -4,6 +4,6 @@ namespace Blog.Repositories.Interfaces
 {
     public interface IShareTrackRepository : IRepository<ShareTrack>
     {
-        Task<ShareTrack> GetSharesByPostIdAsync(int postId);
+        Task<ICollection<ShareTrack>> GetSharesByPostIdAsync(int postId);
     }
 }

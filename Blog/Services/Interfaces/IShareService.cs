@@ -5,6 +5,6 @@ namespace Blog.Services.Interfaces
 {
     public interface IShareService : IService<ShareTrack>
     {
-        Task GetSharesByPostIdAsync(int postId);
+        Task<ICollection<ShareTrack>> GetSharesByPostIdAsync(int postId);
     }
 }
