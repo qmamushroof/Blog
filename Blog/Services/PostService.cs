@@ -15,6 +15,14 @@ namespace Blog.Services
 
         public async Task<ICollection<Post>> GetPostsByPriorityAsync(PostPriority priority) => await _postRepository.GetPostsByPriorityAsync(priority);
 
+        public async Task<ICollection<Post>> GetTopPostsByPriorityAsync(PostPriority priority, int count = 5)
+        {
+            var posts = await GetPostsByPriorityAsync(priority);
+            var filteredPosts = 
+                posts.OrderBy(p => p.PublishedAt).OrderBy(p => p.ShareCount).Take(count).ToList();
+            return filteredPosts;
+        }
+
         public async Task<int> SoftDeletePostByIdAsync(int id)
         {
             var post = await _postRepository.GetByIdAsync(id);
