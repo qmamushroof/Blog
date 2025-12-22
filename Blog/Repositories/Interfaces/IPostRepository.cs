@@ -1,10 +1,12 @@
 ﻿using Blog.Models.Entities;
+using Blog.Models.Enums;
 
 namespace Blog.Repositories.Interfaces
 {
     public interface IPostRepository : IRepository<Post>
     {
-        Task<ICollection<Post>> GetPublishedPostsAsync();
+        Task<ICollection<Post>> GetPostsByStatusAsync(PostStatus status);
+        Task<ICollection<Post>> GetPostsByPriorityAsync(PostPriority priority);
         Task UpdateAsync(Post post, List<int> selectedTagIds);
     }
 }

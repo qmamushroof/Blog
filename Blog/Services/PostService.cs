@@ -11,13 +11,21 @@ namespace Blog.Services
 
         public PostService(IPostRepository postRepository) : base(postRepository) => _postRepository = postRepository;
 
-        public async Task<ICollection<Post>> GetPublishedPostsAsync() => await _postRepository.GetPublishedPostsAsync();
+        public async Task<ICollection<Post>> GetPostsByStatusAsync(PostStatus status) => await _postRepository.GetPostsByStatusAsync(status);
+
+        public async Task<ICollection<Post>> GetPostsByPriorityAsync(PostPriority priority) => await _postRepository.GetPostsByPriorityAsync(priority);
 
         public async Task<int> SoftDeletePostByIdAsync(int id)
         {
             var post = await _postRepository.GetByIdAsync(id);
             post!.Status = PostStatus.SoftDeleted;
             post.DeletedAt = DateTime.UtcNow;
+            return await _postRepository.SaveChangesAsync();
+        }
+
+        public async Task<int> UpdateAsync(Post post, List<int> selectedTagIds)
+        {
+            await _postRepository.UpdateAsync(post, selectedTagIds);
             return await _postRepository.SaveChangesAsync();
         }
     }
