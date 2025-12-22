@@ -11,15 +11,24 @@ namespace Blog.Services
 
         public PostService(IPostRepository postRepository) : base(postRepository) => _postRepository = postRepository;
 
-        public async Task<ICollection<Post>> GetPostsByStatusAsync(PostStatus status) => await _postRepository.GetPostsByStatusAsync(status);
+        public async Task<ICollection<Post>> GetPostsByStatusAsync(PostStatus status)
+        {
+            var posts = await _postRepository.GetPostsByStatusAsync(status);
+            var orderedPosts = posts.OrderByDescending(p => p.PublishedAt).ToList();
+            return orderedPosts;
+        }
 
-        public async Task<ICollection<Post>> GetPostsByPriorityAsync(PostPriority priority) => await _postRepository.GetPostsByPriorityAsync(priority);
+        public async Task<ICollection<Post>> GetPostsByPriorityAsync(PostPriority priority)
+        {
+            var posts = await _postRepository.GetPostsByPriorityAsync(priority);
+            var orderedPosts = posts.OrderByDescending(p => p.PublishedAt).ToList();
+            return orderedPosts;
+        }
 
         public async Task<ICollection<Post>> GetTopPostsByPriorityAsync(PostPriority priority, int count = 5)
         {
             var posts = await GetPostsByPriorityAsync(priority);
-            var filteredPosts = 
-                posts.OrderBy(p => p.PublishedAt).OrderBy(p => p.ShareCount).Take(count).ToList();
+            var filteredPosts = posts.Take(count).ToList();
             return filteredPosts;
         }
 
