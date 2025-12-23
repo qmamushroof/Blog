@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net;
 
 namespace Blog.Models.Entities
 {
@@ -12,7 +13,7 @@ namespace Blog.Models.Entities
         public string? ShareUrl { get; set; }
         public DateTime SharedAt { get; set; } = DateTime.UtcNow;
 
-        public string? UserIp { get; set; }
+        public IPAddress? UserIp { get; set; }
 
         [ForeignKey(nameof(Post))]
         public int? PostId { get; set; }

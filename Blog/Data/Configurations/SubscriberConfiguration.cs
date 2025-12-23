@@ -1,19 +1,17 @@
 ﻿using Blog.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Blog.Data.Configurations
 {
-    public class SubscriberConfiguration
+    public class SubscriberConfiguration : IEntityTypeConfiguration<Subscriber>
     {
-        public static void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<Subscriber> builder)
         {
-            modelBuilder.Entity<Subscriber>(entity =>
-            {
-                entity.HasIndex(s => s.Email).IsUnique();
-                entity.Property(s => s.Email).IsRequired().HasMaxLength(200);
+            builder.HasIndex(s => s.Email).IsUnique();
+            builder.Property(s => s.Email).IsRequired().HasMaxLength(200);
 
-                entity.Property(s => s.Status).HasConversion<string>().IsRequired().HasMaxLength(50);
-            });
+            builder.Property(s => s.Status).HasConversion<string>().IsRequired().HasMaxLength(50);
         }
     }
 }

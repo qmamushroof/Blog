@@ -1,22 +1,20 @@
 ﻿using Blog.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Blog.Data.Configurations
 {
-    public class CategoryConfiguration
+    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
-        public static void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<Category> builder)
         {
-            modelBuilder.Entity<Category>(entity =>
-            {
-                entity.HasIndex(c => c.Slug).IsUnique();
-                entity.Property(c => c.Slug).IsRequired().HasMaxLength(100);
+            builder.HasIndex(c => c.Slug).IsUnique();
+            builder.Property(c => c.Slug).IsRequired().HasMaxLength(100);
 
-                entity.HasIndex(c => c.Name).IsUnique();
-                entity.Property(c => c.Name).IsRequired().HasMaxLength(100);
+            builder.HasIndex(c => c.Name).IsUnique();
+            builder.Property(c => c.Name).IsRequired().HasMaxLength(100);
 
-                entity.Property(c => c.Description).HasMaxLength(500);
-            });
+            builder.Property(c => c.Description).HasMaxLength(500);
         }
     }
 }

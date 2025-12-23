@@ -1,22 +1,20 @@
 ﻿using Blog.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Blog.Data.Configurations
 {
-    public class PostTagConfiguration
+    public class PostTagConfiguration : IEntityTypeConfiguration<PostTag>
     {
-        public static void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<PostTag> builder)
         {
-            modelBuilder.Entity<PostTag>(entity =>
-            {
-                entity.HasKey(pt => new { pt.PostId, pt.TagId });
+            builder.HasKey(pt => new { pt.PostId, pt.TagId });
 
-                entity.HasOne(pt => pt.Post).WithMany(p => p.PostTags)
-                .HasForeignKey(pt => pt.PostId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(pt => pt.Post).WithMany(p => p.PostTags)
+            .HasForeignKey(pt => pt.PostId).OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasOne(pt => pt.Tag).WithMany(t => t.PostTags)
-                .HasForeignKey(pt => pt.TagId).OnDelete(DeleteBehavior.Cascade);
-            });
+            builder.HasOne(pt => pt.Tag).WithMany(t => t.PostTags)
+            .HasForeignKey(pt => pt.TagId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

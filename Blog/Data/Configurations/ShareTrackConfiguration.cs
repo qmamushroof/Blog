@@ -1,25 +1,29 @@
 ﻿using Blog.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Net;
 
 namespace Blog.Data.Configurations
 {
-    public class ShareTrackConfiguration
+    public class ShareTrackConfiguration : IEntityTypeConfiguration<ShareTrack>
     {
-        public static void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<ShareTrack> builder)
         {
-            modelBuilder.Entity<ShareTrack>(entity =>
-            {
-                entity.HasIndex(st => st.PostId);
+            builder.HasIndex(st => st.PostId);
 
-                entity.Property(st => st.Platform).HasMaxLength(100);
+            builder.Property(st => st.Platform).HasMaxLength(100);
 
-                entity.Property(st => st.SharedAt).HasMaxLength(500);
+            builder.Property(st => st.SharedAt).HasMaxLength(500);
 
-                entity.Property(st => st.UserIp).HasMaxLength(40);
+            builder.Property(st => st.UserIp).HasMaxLength(40)
+            .HasColumnType("varbinary(16)")
+            .HasConversion(
+                v => v!.GetAddressBytes(),
+                v => new IPAddress(v)
+            );
 
-                entity.HasOne(st => st.Post).WithMany(p => p.ShareTracks)
-                .HasForeignKey(st => st.PostId).OnDelete(DeleteBehavior.SetNull);
-            });
+            builder.HasOne(st => st.Post).WithMany(p => p.ShareTracks)
+            .HasForeignKey(st => st.PostId).OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
