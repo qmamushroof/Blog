@@ -59,8 +59,12 @@
     <Folder Include="Tables" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\Post.sql" />
-    <Build Include="Tables\Category.sql" />
+    <Build Include="Tables\Posts.sql" />
+    <Build Include="Tables\Categories.sql" />
+    <Build Include="Tables\Tags.sql" />
+    <Build Include="Tables\PostTags.sql" />
+    <Build Include="Tables\Subscribers.sql" />
+    <Build Include="Tables\ShareTracks.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="DB.refactorlog" />

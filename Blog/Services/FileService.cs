@@ -27,7 +27,7 @@ namespace Blog.Services
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await stream.CopyToAsync(stream);
+                await file.CopyToAsync(stream);
             }
 
             return $"/{_uploadPath}/{fileName}";

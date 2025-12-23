@@ -30,7 +30,7 @@ namespace Blog.Models.Entities
         public Category? Category { get; set; }
 
         //[ForeignKey(nameof(ApplicationUser))]
-        public string AuthorId { get; set; } = string.Empty;
+        public string? AuthorId { get; set; } = string.Empty;
         //public ApplicationUser? Author { get; set; }
 
         public ICollection<PostTag> PostTags { get; set; } = new List<PostTag>();

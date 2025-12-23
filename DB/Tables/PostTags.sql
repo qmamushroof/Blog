@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[PostTags]
+(
+	[PostId] INT NOT NULL, 
+    [TagId] INT NOT NULL,
+
+	CONSTRAINT PK_PostTags PRIMARY KEY CLUSTERED ([PostId], [TagId]), 
+    CONSTRAINT [FK_PostTags_Posts] FOREIGN KEY ([PostId]) REFERENCES [Posts]([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_PostTags_Tags] FOREIGN KEY ([TagId]) REFERENCES [Tags]([Id]) ON DELETE CASCADE
+)
