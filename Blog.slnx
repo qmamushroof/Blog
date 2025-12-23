@@ -1,6 +1,6 @@
 <Solution>
   <Project Path="Blog/Blog.csproj" />
-  <Project Path="BlogDB/BlogDB.sqlproj" Id="61e4d0fa-7456-4b22-be77-6e710a7838cd">
+  <Project Path="BlogDB/BlogDB.sqlproj" Id="a3e9dad0-5315-40ec-8fb7-d3bbb7fd6c7e">
     <Build />
     <Deploy />
   </Project>

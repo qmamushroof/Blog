@@ -77,7 +77,7 @@ namespace Blog.Migrations
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: true),
-                    AuthorId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AuthorId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ShareCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

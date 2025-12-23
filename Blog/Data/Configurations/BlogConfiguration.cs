@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Data.Configurations
 {
-    public static class Configuration
+    public static class BlogConfiguration
     {
         public static void Configure(ModelBuilder modelBuilder)
         {

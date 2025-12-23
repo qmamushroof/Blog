@@ -15,7 +15,7 @@ namespace Blog.Models.Entities
         public string? UserIp { get; set; }
 
         [ForeignKey(nameof(Post))]
-        public int PostId { get; set; }
+        public int? PostId { get; set; }
         public Post? Post { get; set; }
     }
 }

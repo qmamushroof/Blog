@@ -6,7 +6,7 @@
     <Name>BlogDB</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{61e4d0fa-7456-4b22-be77-6e710a7838cd}</ProjectGuid>
+    <ProjectGuid>{a3e9dad0-5315-40ec-8fb7-d3bbb7fd6c7e}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql170DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
