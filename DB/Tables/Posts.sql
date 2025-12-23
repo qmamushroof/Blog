@@ -14,7 +14,7 @@
     [DeletedAt] DATETIME2 NULL, 
     [CategoryId] INT NULL, 
     [AuthorId] VARCHAR(100) NULL, 
-    [ShareCount] INT NOT NULL, 
+    [ShareCount] INT NULL, 
     CONSTRAINT [FK_Posts_Categories] FOREIGN KEY ([CategoryId]) REFERENCES [Categories]([Id]) ON DELETE SET NULL, 
     CONSTRAINT [AK_Posts_Slug] UNIQUE ([Slug])
 )

@@ -12,7 +12,7 @@ namespace Blog.Data.Configurations
                 entity.HasIndex(s => s.Email).IsUnique();
                 entity.Property(s => s.Email).IsRequired().HasMaxLength(200);
 
-                entity.Property(s => s.Status).HasConversion<string>();
+                entity.Property(s => s.Status).HasConversion<string>().IsRequired().HasMaxLength(50);
             });
         }
     }

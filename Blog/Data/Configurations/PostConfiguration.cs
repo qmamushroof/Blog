@@ -16,8 +16,11 @@ namespace Blog.Data.Configurations
 
                 entity.Property(p => p.Content).IsRequired();
 
-                entity.Property(p => p.Status).HasConversion<string>();
-                entity.Property(p => p.Priority).HasConversion<string>();
+                entity.Property(p => p.Status).HasConversion<string>().HasMaxLength(50);
+                entity.Property(p => p.Priority).HasConversion<string>().HasMaxLength(50);
+
+                entity.Property(p => p.HeaderImageUrl).HasMaxLength(500);
+                entity.Property(p => p.AuthorId).HasMaxLength(100);
 
                 entity.HasOne(p => p.Category).WithMany(c => c.Posts)
                 .HasForeignKey(p => p.CategoryId).OnDelete(DeleteBehavior.SetNull);

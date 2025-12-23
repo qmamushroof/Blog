@@ -14,6 +14,8 @@ namespace Blog.Data.Configurations
 
                 entity.HasIndex(t => t.Name).IsUnique();
                 entity.Property(t => t.Name).IsRequired().HasMaxLength(100);
+
+                entity.Property(t => t.Description).HasMaxLength(500);
             });
         }
     }

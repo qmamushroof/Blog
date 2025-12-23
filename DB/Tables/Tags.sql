@@ -2,7 +2,7 @@
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
 	[Name] NVARCHAR(100) NOT NULL, 
-    [Description] NVARCHAR(400) NULL, 
+    [Description] NVARCHAR(500) NULL, 
     [Slug] NVARCHAR(100) NOT NULL, 
     CONSTRAINT [AK_Tags_Name] UNIQUE ([Name]),
     CONSTRAINT [AK_Tags_Slug] UNIQUE ([Slug])

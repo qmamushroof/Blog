@@ -13,6 +13,10 @@ namespace Blog.Data.Configurations
 
                 entity.Property(st => st.Platform).HasMaxLength(100);
 
+                entity.Property(st => st.SharedAt).HasMaxLength(500);
+
+                entity.Property(st => st.UserIp).HasMaxLength(40);
+
                 entity.HasOne(st => st.Post).WithMany(p => p.ShareTracks)
                 .HasForeignKey(st => st.PostId).OnDelete(DeleteBehavior.SetNull);
             });
