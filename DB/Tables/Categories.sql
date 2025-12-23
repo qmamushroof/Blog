@@ -7,3 +7,11 @@
     CONSTRAINT [AK_Categories_Name] UNIQUE ([Name]),
     CONSTRAINT [AK_Categories_Slug] UNIQUE ([Slug])
 )
+
+GO
+
+CREATE INDEX [IX_Categories_Name] ON [dbo].[Categories] ([Name])
+
+GO
+
+CREATE INDEX [IX_Categories_Slug] ON [dbo].[Categories] ([Slug])

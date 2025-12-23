@@ -7,3 +7,7 @@
     [UnsubscribedAt] DATETIME2 NOT NULL, 
     CONSTRAINT [AK_Subscribers_Email] UNIQUE ([Email])
 )
+
+GO
+
+CREATE INDEX [IX_Subscribers_Status] ON [dbo].[Subscribers] ([Status])

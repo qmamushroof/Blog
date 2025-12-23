@@ -7,3 +7,11 @@
     CONSTRAINT [AK_Tags_Name] UNIQUE ([Name]),
     CONSTRAINT [AK_Tags_Slug] UNIQUE ([Slug])
 )
+
+GO
+
+CREATE INDEX [IX_Tags_Name] ON [dbo].[Tags] ([Name])
+
+GO
+
+CREATE INDEX [IX_Tags_Slug] ON [dbo].[Tags] ([Slug])
