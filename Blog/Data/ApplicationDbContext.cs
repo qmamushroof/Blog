@@ -22,7 +22,7 @@ namespace Blog.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            CodeFirstConfigurationBackup.Configure(modelBuilder);
+            Configuration.Configure(modelBuilder);
 
             BlogSeeder.Seed(modelBuilder);
         }
