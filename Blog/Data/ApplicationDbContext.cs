@@ -1,5 +1,4 @@
-﻿using Blog.Data.Configurations;
-using Blog.Data.Seeding;
+﻿using Blog.Data.Seeding;
 using Blog.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
