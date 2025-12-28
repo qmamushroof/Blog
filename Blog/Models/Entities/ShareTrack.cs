@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Net;
 
 namespace Blog.Models.Entities
 {
     public class ShareTrack
     {
-        [Key]
         public int Id { get; set; }
 
         public string? Platform { get; set; }
