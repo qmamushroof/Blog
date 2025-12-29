@@ -11,7 +11,7 @@ namespace Blog.Services
         public FileService(IWebHostEnvironment environment)
         {
             _environment = environment;
-            var absolutePath = Path.Combine(_environment.WebRootPath, _uploadPath);
+            string absolutePath = Path.Combine(_environment.WebRootPath, _uploadPath);
             Directory.CreateDirectory(absolutePath);
         }
 
@@ -22,8 +22,8 @@ namespace Blog.Services
 
             if (file == null || file.Length == 0) return existingUrl;
 
-            var fileName = DateTime.UtcNow.ToString() + post!.Id! + post!.Title! + Guid.NewGuid() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(_environment.WebRootPath, _uploadPath, fileName);
+            string fileName = DateTime.UtcNow.ToString() + post!.Id! + post!.Title! + Guid.NewGuid() + Path.GetExtension(file.FileName);
+            string filePath = Path.Combine(_environment.WebRootPath, _uploadPath, fileName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
