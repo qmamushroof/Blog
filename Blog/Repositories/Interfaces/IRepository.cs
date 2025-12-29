@@ -4,7 +4,6 @@
     {
         Task<T?> GetByIdAsync(int id);
         Task<T?> GetBySlugAsync(string slug);
-
         Task<IEnumerable<T>> GetAllAsync();
         Task AddAsync(T entity);
         void Update(T entity);
