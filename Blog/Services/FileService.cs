@@ -15,14 +15,14 @@ namespace Blog.Services
             Directory.CreateDirectory(absolutePath);
         }
 
-        public async Task<string?> UploadHeaderImageAsync(IFormFile file, Post post, string? existingUrl = null)
+        public async Task<string?> UploadHeaderImageAsync(IFormFile file, Post? post = null, string? existingUrl = null)
         {
             if (!string.IsNullOrEmpty(existingUrl) && file != null)
                 await DeleteFileAsync(existingUrl);
 
             if (file == null || file.Length == 0) return existingUrl;
 
-            var fileName = DateTime.UtcNow.ToString() + post.Id + post.Title;
+            var fileName = DateTime.UtcNow.ToString() + post!.Id! + post!.Title! + Guid.NewGuid() + Path.GetExtension(file.FileName);
             var filePath = Path.Combine(_environment.WebRootPath, _uploadPath, fileName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
@@ -33,7 +33,7 @@ namespace Blog.Services
             return $"/{_uploadPath}/{fileName}";
         }
 
-        public Task DeleteFileAsync(string fileUrl)
+        public Task DeleteFileAsync(string? fileUrl)
         {
             throw new NotImplementedException();
         }

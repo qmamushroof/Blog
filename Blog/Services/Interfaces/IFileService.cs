@@ -4,7 +4,7 @@ namespace Blog.Services.Interfaces
 {
     public interface IFileService
     {
-        Task<string?> UploadHeaderImageAsync(IFormFile file, Post post, string? existingUrl = null);
-        Task DeleteFileAsync(string fileUrl);
+        Task<string?> UploadHeaderImageAsync(IFormFile file, Post? post = null, string? existingUrl = null);
+        Task DeleteFileAsync(string? fileUrl);
     }
 }
