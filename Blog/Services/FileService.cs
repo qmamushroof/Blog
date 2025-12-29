@@ -33,9 +33,13 @@ namespace Blog.Services
             return $"/{_uploadPath}/{fileName}";
         }
 
-        public Task DeleteFileAsync(string? fileUrl)
+        public async Task DeleteFileAsync(string? fileUrl)
         {
-            throw new NotImplementedException();
+            if (!string.IsNullOrEmpty(fileUrl))
+            {
+                string filePath = Path.Combine(_environment.WebRootPath, fileUrl.TrimEnd('/'));
+                await Task.Run(() => File.Delete(filePath));
+            }
         }
     }
 }
