@@ -5,6 +5,6 @@ namespace Blog.Services.Interfaces
 {
     public interface ICategoryService : IService<Category>
     {
-        Task<ICollection<Post>> GetPostsByCategoryId(int id);
+        Task<ICollection<Post>> GetPostsByCategoryIdAsync(int id);
     }
 }
