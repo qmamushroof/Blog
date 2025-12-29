@@ -8,7 +8,8 @@ namespace Blog.Services.Interfaces
         Task<ICollection<Post>> GetPostsByStatusAsync(PostStatus status);
         Task<ICollection<Post>> GetPostsByPriorityAsync(PostPriority priority);
         Task<ICollection<Post>> GetTopPostsByPriorityAsync(PostPriority priority, int count = 5);
-        Task<int> UpdateAsync(Post post, List<int> selectedTagIds);
+        Task<int> CreateAsync(Post post, List<int> selectedTagIds, IFormFile? headerImageFile);
+        Task<int> UpdateAsync(Post post, List<int> selectedTagIds, IFormFile? headerImageFile);
         Task<int> SoftDeletePostByIdAsync(int id);
     }
 }

@@ -18,10 +18,10 @@ namespace Blog.Repositories
         public async Task<ICollection<Post>> GetPostsByPriorityAsync(PostPriority priority)
             => await _context.Posts.Where(p => p.Priority == priority).ToListAsync();
 
-        public async Task UpdateAsync(Post post, List<int> selectedTagIds)
+        public async Task SyncTagsAsync(int postId, List<int> selectedTagIds)
         {
             var existingPostTagsOfThisPost =
-                await _context.PostTags.Where(pt => pt.PostId == post.Id).ToListAsync();
+                await _context.PostTags.Where(pt => pt.PostId == postId).ToListAsync();
 
             var postTagsToBeRemovedFromThisPost =
                 existingPostTagsOfThisPost.Where(pt => !selectedTagIds.Contains(pt.TagId)).ToList();
@@ -32,7 +32,7 @@ namespace Blog.Repositories
                 selectedTagIds.Where(tagId => !existingPostTagsOfThisPost.Any(pt => pt.TagId == tagId)).ToList();
 
             var postTagsToBeAddedToThisPost =
-                tagIdsToBeAddedToThisPost.Select(tagId => new PostTag { PostId = post.Id, TagId = tagId }).ToList();
+                tagIdsToBeAddedToThisPost.Select(tagId => new PostTag { PostId = postId, TagId = tagId }).ToList();
 
             await _context.PostTags.AddRangeAsync(postTagsToBeAddedToThisPost);
         }
