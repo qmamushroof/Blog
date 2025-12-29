@@ -25,8 +25,8 @@ namespace Blog.Services
             string fileName = DateTime.UtcNow.ToString() + post!.Id! + post!.Title! + Guid.NewGuid() + Path.GetExtension(file.FileName);
             string filePath = Path.Combine(_environment.WebRootPath, _uploadPath, fileName);
 
-            using (var stream = new FileStream(filePath, FileMode.Create))
-                await file.CopyToAsync(stream);
+            using var stream = new FileStream(filePath, FileMode.Create);
+            await file.CopyToAsync(stream);
 
             return $"/{_uploadPath}/{fileName}";
         }
