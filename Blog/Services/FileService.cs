@@ -6,7 +6,7 @@ namespace Blog.Services
     public class FileService : IFileService
     {
         private readonly IWebHostEnvironment _environment;
-        private readonly string _uploadPath = $"uploads/posts";
+        private readonly string _uploadPath = $"uploads/blog/posts";
 
         public FileService(IWebHostEnvironment environment)
         {
