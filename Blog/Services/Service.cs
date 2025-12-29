@@ -15,11 +15,11 @@ namespace Blog.Services
             return await _repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync() => await _repository.GetAllAsync();
-
         public async Task<T?> GetByIdAsync(int id) => await _repository.GetByIdAsync(id);
 
         public async Task<T?> GetBySlugAsync(string slug) => await _repository.GetBySlugAsync(slug);
+
+        public async Task<IEnumerable<T>> GetAllAsync() => await _repository.GetAllAsync();
 
         public async Task<int> UpdateAsync(T entity)
         {
