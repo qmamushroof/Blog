@@ -26,9 +26,7 @@ namespace Blog.Services
             string filePath = Path.Combine(_environment.WebRootPath, _uploadPath, fileName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
-            {
                 await file.CopyToAsync(stream);
-            }
 
             return $"/{_uploadPath}/{fileName}";
         }
