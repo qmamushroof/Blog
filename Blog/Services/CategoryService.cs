@@ -6,13 +6,16 @@ namespace Blog.Services
 {
     public class CategoryService : Service<Category>, ICategoryService
     {
-        public CategoryService(ICategoryRepository categoryRepository) : base(categoryRepository) { }
+        private readonly IPostService _postService;
+        public CategoryService(ICategoryRepository categoryRepository, IPostService postService) : base(categoryRepository) => _postService = postService;
 
         public async Task<ICollection<Post>> GetPostsByCategoryIdAsync(int id)
         {
             var category = await GetByIdAsync(id);
-            var posts = category!.Posts.ToList();
-            return posts;
+            var uncheckedPosts = category!.Posts.ToList();
+
+            var checkedPosts = await _postService.ExpireOverduePostsAsync(uncheckedPosts);
+            return checkedPosts;
         }
     }
 }

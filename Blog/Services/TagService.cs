@@ -6,21 +6,23 @@ namespace Blog.Services
 {
     public class TagService : Service<Tag>, ITagService
     {
-        private readonly IPostRepository _postRepository;
-        public TagService(ITagRepository tagRepository, IPostRepository postRepository) : base(tagRepository) => _postRepository = postRepository;
+        private readonly IPostService _postService;
+        public TagService(ITagRepository tagRepository, IPostService postService) : base(tagRepository) => _postService = postService;
 
         public async Task<ICollection<Post>> GetPostsByTagIdAsync(int id)
         {
             var tag = await GetByIdAsync(id);
             var postIds = tag!.PostTags.Select(pt => pt.PostId).ToList();
 
-            var posts = new List<Post>();
+            var uncheckedPosts = new List<Post>();
             foreach (int postId in postIds)
             {
-                var post = await _postRepository.GetByIdAsync(postId);
-                posts.Add(post!);
+                var post = await _postService.GetByIdAsync(postId);
+                uncheckedPosts.Add(post!);
             }
-            return posts;
+
+            var checkedPosts = await _postService.ExpireOverduePostsAsync(uncheckedPosts);
+            return checkedPosts;
         }
     }
 }

@@ -18,17 +18,34 @@ namespace Blog.Services
 
         private ICollection<Post> OrderByPublishDate(ICollection<Post> posts) => posts.OrderByDescending(p => p.PublishedAt).ToList();
 
+        public async Task<ICollection<Post>> ExpireOverduePostsAsync(ICollection<Post> uncheckedPosts)
+        {
+            var checkedPosts = new List<Post>();
+            foreach (var post in uncheckedPosts)
+            {
+                if (post.Deadline < DateTime.UtcNow) post.Status = PostStatus.Expired;
+                await UpdateAsync(post);
+                checkedPosts.Add(post);
+            }
+            return checkedPosts;
+        }
+
         public async Task<ICollection<Post>> GetPostsByStatusAsync(PostStatus status)
         {
-            var posts = await _postRepository.GetPostsByStatusAsync(status);
-            var orderedPosts = OrderByPublishDate(posts);
+            var uncheckedPosts = await _postRepository.GetPostsByStatusAsync(status);
+            var checkedPosts = await ExpireOverduePostsAsync(uncheckedPosts);
+            var orderedPosts = OrderByPublishDate(checkedPosts);
             return orderedPosts;
         }
 
+        public async Task<ICollection<Post>> GetPublishedPostsAsync()
+            => await GetPostsByStatusAsync(PostStatus.Published);
+
         public async Task<ICollection<Post>> GetPostsByPriorityAsync(PostPriority priority)
         {
-            var posts = await _postRepository.GetPostsByPriorityAsync(priority);
-            var orderedPosts = OrderByPublishDate(posts);
+            var uncheckedPosts = await _postRepository.GetPostsByPriorityAsync(priority);
+            var checkedPosts = await ExpireOverduePostsAsync(uncheckedPosts);
+            var orderedPosts = OrderByPublishDate(checkedPosts);
             return orderedPosts;
         }
 
@@ -38,6 +55,12 @@ namespace Blog.Services
             var filteredPosts = posts.Take(count).ToList();
             return filteredPosts;
         }
+
+        public async Task<ICollection<Post>> GetPinnedPostsAsync()
+            => await GetTopPostsByPriorityAsync(PostPriority.Pinned);
+
+        public async Task<ICollection<Post>> GetHotPostsAsync()
+            => await GetTopPostsByPriorityAsync(PostPriority.Hot);
 
         public async Task<int> CreateAsync(Post post, List<int> selectedTagIds, IFormFile? headerImageFile = null)
         {
