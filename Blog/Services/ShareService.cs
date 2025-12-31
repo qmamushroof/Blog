@@ -12,5 +12,11 @@ namespace Blog.Services
 
         public async Task<ICollection<ShareTrack>> GetSharesByPostIdAsync(int postId)
             => await _shareTrackRepository.GetSharesByPostIdAsync(postId);
+
+        public async Task<int> TrackShareAsync(ShareTrack share)
+        {
+            share.Post!.ShareCount++;
+            return await CreateAsync(share);
+        }
     }
 }
