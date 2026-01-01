@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Controllers
 {
-    public class ShareController : ControllerBase
+    public class ShareController : Controller
     {
         private readonly IShareService _shareService;
 
