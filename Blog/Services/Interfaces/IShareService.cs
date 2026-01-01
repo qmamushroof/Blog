@@ -6,5 +6,6 @@ namespace Blog.Services.Interfaces
     {
         Task<ICollection<ShareTrack>> GetSharesByPostIdAsync(int postId);
         Task<int> TrackShareAsync(ShareTrack share);
+        string GetRedirectUrl(string platform, string url);
     }
 }
