@@ -113,7 +113,7 @@ namespace Blog.Services
             return await _postRepository.SaveChangesAsync();
         }
 
-        private string GenerateSlug(Post post) => Uri.EscapeDataString($"{post.Title}-{post.Id}");
+        private string GenerateSlug(Post post) => Uri.EscapeDataString($"{post.Title.ToLower().Replace(" ", "-")}-{post.Id}");
 
         public string GetFullUrl(Post post) => $"https://domainname.com/blog/{post.Slug}";
     }
