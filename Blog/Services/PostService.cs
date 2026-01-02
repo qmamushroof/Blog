@@ -62,10 +62,20 @@ namespace Blog.Services
         public async Task<ICollection<Post>> GetHotPostsAsync()
             => await GetTopPostsByPriorityAsync(PostPriority.Hot);
 
+        public override async Task<int> CreateAsync(Post post)
+        {
+            post.Slug = GenerateSlug(post);
+            post.CreatedAt = DateTime.UtcNow;
+            post.UpdatedAt = DateTime.UtcNow;
+            await _postRepository.AddAsync(post);
+            return await _postRepository.SaveChangesAsync();
+        }
+
         public async Task<int> CreateAsync(Post post, List<int> selectedTagIds, IFormFile? headerImageFile = null)
         {
             post.HeaderImageUrl = await _fileService.UploadHeaderImageAsync(headerImageFile!, post, post.HeaderImageUrl);
 
+            post.Slug = GenerateSlug(post);
             post.CreatedAt = DateTime.UtcNow;
             post.UpdatedAt = DateTime.UtcNow;
 
@@ -74,8 +84,18 @@ namespace Blog.Services
             return await _postRepository.SaveChangesAsync();
         }
 
+        public override async Task<int> UpdateAsync(Post post)
+        {
+            post.Slug = GenerateSlug(post);
+            post.UpdatedAt = DateTime.UtcNow;
+            _postRepository.Update(post);
+            return await _postRepository.SaveChangesAsync();
+        }
+
         public async Task<int> UpdateAsync(Post post, List<int> selectedTagIds, IFormFile? headerImageFile = null)
         {
+            post.Slug = GenerateSlug(post);
+
             post.HeaderImageUrl = await _fileService.UploadHeaderImageAsync(headerImageFile!, post, post.HeaderImageUrl);
 
             post.UpdatedAt = DateTime.UtcNow;

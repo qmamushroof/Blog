@@ -9,7 +9,7 @@ namespace Blog.Services
 
         public Service(IRepository<T> repository) => _repository = repository;
 
-        public async Task<int> CreateAsync(T entity)
+        public virtual async Task<int> CreateAsync(T entity)
         {
             await _repository.AddAsync(entity);
             return await _repository.SaveChangesAsync();
@@ -21,7 +21,7 @@ namespace Blog.Services
 
         public async Task<IEnumerable<T>> GetAllAsync() => await _repository.GetAllAsync();
 
-        public async Task<int> UpdateAsync(T entity)
+        public virtual async Task<int> UpdateAsync(T entity)
         {
             _repository.Update(entity);
             return await _repository.SaveChangesAsync();
