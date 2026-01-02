@@ -15,7 +15,6 @@ namespace Blog.Services.Interfaces
         Task<int> CreateAsync(Post post, List<int> selectedTagIds, IFormFile? headerImageFile);
         Task<int> UpdateAsync(Post post, List<int> selectedTagIds, IFormFile? headerImageFile);
         Task<int> SoftDeletePostByIdAsync(int id);
-        string GenerateSlug(Post post);
         string GetFullUrl(Post post);
     }
 }
