@@ -7,15 +7,27 @@ namespace Blog.Services
     public class ShareService : Service<ShareTrack>, IShareService
     {
         private readonly IShareTrackRepository _shareTrackRepository;
+        private readonly IPostService _postService;
 
-        public ShareService(IShareTrackRepository shareTrackRepository) : base(shareTrackRepository) => _shareTrackRepository = shareTrackRepository;
+        public ShareService(IShareTrackRepository shareTrackRepository, IPostService postService) : base(shareTrackRepository)
+        {
+            _shareTrackRepository = shareTrackRepository;
+            _postService = postService;
+        }
+
+        private async Task<int> IncrementShareCountAsync(int postId)
+        {
+            var post = await _postService.GetByIdAsync(postId);
+            post!.ShareCount++;
+            return await _postService.UpdateAsync(post);
+        }
 
         public async Task<ICollection<ShareTrack>> GetSharesByPostIdAsync(int postId)
             => await _shareTrackRepository.GetSharesByPostIdAsync(postId);
 
         public async Task<int> TrackShareAsync(ShareTrack share)
         {
-            share.Post!.ShareCount++;
+            await IncrementShareCountAsync(share.PostId);
             return await CreateAsync(share);
         }
 
