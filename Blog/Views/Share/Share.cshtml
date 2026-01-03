@@ -1,15 +1,15 @@
 ﻿@model PostDetailViewModel
 
 <div class="share-buttons">
-    <a href="https://www.facebook.com/sharer.php?u={@Model.FullUrl}" target="_blank" rel="noopener" class="btn">
+    <a href="/share/track/facebook/@Model.Id?url=@Model.FullUrl" target="_blank" rel="noopener" class="btn">
         Share on Facebook
     </a>
-    
-    <a href="https://twitter.com/intent/tweet?url={@Model.FullUrl}" target="_blank" rel="noopener" class="btn">
+
+    <a href="/share/track/twitter/@Model.Id?url=@Model.FullUrl" target="_blank" rel="noopener" class="btn">
         Share on X
     </a>
-    
-    <a href="https://www.linkedin.com/sharing/share-offsite/?url={@Model.FullUrl}" target="_blank" rel="noopener" class="btn">
+
+    <a href="/share/track/linkedin/@Model.Id?url=@Model.FullUrl" target="_blank" rel="noopener" class="btn">
         Share on LinkedIn
     </a>
 </div>
