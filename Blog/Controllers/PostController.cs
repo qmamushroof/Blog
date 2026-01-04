@@ -1,21 +1,39 @@
-﻿using Blog.Data;
-using Blog.Models.Entities;
+﻿using Blog.Models.Entities;
+using Blog.Models.ViewModels;
+using Blog.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Controllers
 {
     public class PostController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IPostService _postService;
 
-        public PostController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public PostController(IPostService postService) => _postService = postService;
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> ShowPublishedPosts()
         {
-            return View();
+            IEnumerable<Post> posts = await _postService.GetPublishedPostsAsync();
+            var postViewModels = new List<PostListViewModel>();
+            foreach (var post in posts)
+            {
+                var postViewModel = new PostListViewModel
+                {
+                    Id = post.Id,
+                    Title = post.Title,
+                    Excerpt = post.Content.Length > 300 ? post.Content.Substring(0, 300) + "..." : post.Content,
+                    Author = post.AuthorId ?? "StudyNet",
+                    Category = post.Category!.Name ?? "Uncategorized",
+                    PublishedAt = post.PublishedAt.GetValueOrDefault(),
+                    HeaderImageUrl = post.HeaderImageUrl,
+                    Tags = post.PostTags.Select(pt => pt.Tag!.Name ?? "Untagged").ToList(),
+                    ShareCount = post.ShareCount
+                };
+
+                postViewModels.Add(postViewModel);
+            }
+
+            return View(postViewModels);
         }
 
         public async Task<IActionResult> Create()

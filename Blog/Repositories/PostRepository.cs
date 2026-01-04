@@ -13,10 +13,16 @@ namespace Blog.Repositories
         public PostRepository(ApplicationDbContext context) : base(context) => _context = context;
 
         public async Task<ICollection<Post>> GetPostsByStatusAsync(PostStatus status)
-            => await _context.Posts.Where(p => p.Status == status).ToListAsync();
+            => await _context.Posts.Where(p => p.Status == status)
+            .Include(p => p.Category)
+            .Include(p => p.PostTags).ThenInclude(pt => pt.Tag)
+            .ToListAsync();
 
         public async Task<ICollection<Post>> GetPostsByPriorityAsync(PostPriority priority)
-            => await _context.Posts.Where(p => p.Priority == priority).ToListAsync();
+            => await _context.Posts.Where(p => p.Priority == priority)
+            .Include(p => p.Category)
+            .Include(p => p.PostTags).ThenInclude(pt => pt.Tag)
+            .ToListAsync();
 
         public async Task SyncTagsAsync(int postId, List<int> selectedTagIds)
         {
