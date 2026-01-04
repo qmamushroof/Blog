@@ -6,6 +6,6 @@
         <h2>@post.Title</h2>
         <p>@post.PublishedAt</p>
         <p>@Html.Raw(post.Excerpt)</p>
-        <a href="@Url.Action("Details", nameof(Post), new { id = post.Id })">Read more</a>
+        <a href="@Url.Action("Details", nameof(PostController), new { id = post.Id })">Read more</a>
     </div>
 }
