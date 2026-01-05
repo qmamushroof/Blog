@@ -14,7 +14,7 @@ namespace Blog.Controllers
         public async Task<IActionResult> ShowPublishedPosts()
         {
             IEnumerable<Post> posts = await _postService.GetPublishedPostsAsync();
-            var postViewModels = new List<PostListViewModel>();
+            var postsViewModel = new List<PostListViewModel>();
             foreach (var post in posts)
             {
                 var postViewModel = new PostListViewModel
@@ -30,10 +30,10 @@ namespace Blog.Controllers
                     ShareCount = post.ShareCount
                 };
 
-                postViewModels.Add(postViewModel);
+                postsViewModel.Add(postViewModel);
             }
 
-            return View(postViewModels);
+            return View(postsViewModel);
         }
 
         public async Task<IActionResult> Create()
