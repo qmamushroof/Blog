@@ -3,6 +3,7 @@ using Blog.Models.Entities;
 using Blog.Models.Enums;
 using Blog.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace Blog.Repositories
 {
@@ -24,10 +25,14 @@ namespace Blog.Repositories
             .Include(p => p.PostTags).ThenInclude(pt => pt.Tag)
             .ToListAsync();
 
-        public async Task SyncTagsAsync(int postId, List<int> selectedTagIds)
+        public async Task SyncTagsAsync(Post post)
         {
+            var tags = post.PostTags;
+            var selectedTagIds = new List<int>();
+            foreach (var tag in tags) selectedTagIds.Add(tag.TagId);
+
             var existingPostTagsOfThisPost =
-                await _context.PostTags.Where(pt => pt.PostId == postId).ToListAsync();
+                await _context.PostTags.Where(pt => pt.PostId == post.Id).ToListAsync();
 
             var postTagsToBeRemovedFromThisPost =
                 existingPostTagsOfThisPost.Where(pt => !selectedTagIds.Contains(pt.TagId)).ToList();
@@ -38,7 +43,7 @@ namespace Blog.Repositories
                 selectedTagIds.Where(tagId => !existingPostTagsOfThisPost.Any(pt => pt.TagId == tagId)).ToList();
 
             var postTagsToBeAddedToThisPost =
-                tagIdsToBeAddedToThisPost.Select(tagId => new PostTag { PostId = postId, TagId = tagId }).ToList();
+                tagIdsToBeAddedToThisPost.Select(tagId => new PostTag { PostId = post.Id, TagId = tagId }).ToList();
 
             await _context.PostTags.AddRangeAsync(postTagsToBeAddedToThisPost);
         }
