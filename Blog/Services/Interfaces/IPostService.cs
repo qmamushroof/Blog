@@ -7,6 +7,7 @@ namespace Blog.Services.Interfaces
     {
         Task<ICollection<Post>> ExpireOverduePostsAsync(ICollection<Post> posts);
         Task<ICollection<Post>> GetPostsByStatusAsync(PostStatus status);
+        Task<Post?> GetPublishedPostByIdAsync(long id);
         Task<ICollection<Post>> GetPublishedPostsAsync();
         Task<ICollection<Post>> GetPostsByPriorityAsync(PostPriority priority);
         Task<ICollection<Post>> GetPinnedPostsAsync();

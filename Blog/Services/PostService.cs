@@ -38,6 +38,13 @@ namespace Blog.Services
             return orderedPosts;
         }
 
+        public async Task<Post?> GetPublishedPostByIdAsync(long id)
+        {
+            var posts = await GetPublishedPostsAsync();
+            var post = posts.FirstOrDefault(p => p.Id == id);
+            return post;
+        }
+
         public async Task<ICollection<Post>> GetPublishedPostsAsync()
             => await GetPostsByStatusAsync(PostStatus.Published);
 
