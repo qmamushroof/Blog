@@ -13,8 +13,10 @@ namespace Blog.Services.Interfaces
         Task<ICollection<Post>> GetPinnedPostsAsync();
         Task<ICollection<Post>> GetHotPostsAsync();
         Task<ICollection<Post>> GetTopPostsByPriorityAsync(PostPriority priority, int count = 5);
-        Task<int> CreateAsync(Post post, IFormFile? headerImageFile);
-        Task<int> UpdateAsync(Post post, IFormFile? headerImageFile);
+        Task<int> CreateAsync(Post post, List<int>? selectedTagIds);
+        Task<int> CreateAsync(Post post, List<int>? selectedTagIds, IFormFile? headerImageFile);
+        Task<int> UpdateAsync(Post post, List<int>? selectedTagIds);
+        Task<int> UpdateAsync(Post post, List<int>? selectedTagIds, IFormFile? headerImageFile);
         Task<int> SoftDeletePostByIdAsync(int id);
         string GetFullUrl(Post post);
     }

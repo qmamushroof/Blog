@@ -7,6 +7,6 @@ namespace Blog.Repositories.Interfaces
     {
         Task<ICollection<Post>> GetPostsByStatusAsync(PostStatus status);
         Task<ICollection<Post>> GetPostsByPriorityAsync(PostPriority priority);
-        Task SyncTagsAsync(Post post);
+        Task SyncTagsAsync(Post post, List<int>? selectedTagIds);
     }
 }

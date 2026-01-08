@@ -69,19 +69,19 @@ namespace Blog.Services
         public async Task<ICollection<Post>> GetHotPostsAsync()
             => await GetTopPostsByPriorityAsync(PostPriority.Hot);
 
-        public override async Task<int> CreateAsync(Post post)
+        public async Task<int> CreateAsync(Post post, List<int>? selectedTagIds)
         {
             post.Slug = GenerateSlug(post);
             post.CreatedAt = DateTime.UtcNow;
             post.UpdatedAt = DateTime.UtcNow;
             await _postRepository.AddAsync(post);
 
-            await _postRepository.SyncTagsAsync(post);
+            await _postRepository.SyncTagsAsync(post, selectedTagIds);
 
             return await _postRepository.SaveChangesAsync();
         }
 
-        public async Task<int> CreateAsync(Post post, IFormFile? headerImageFile = null)
+        public async Task<int> CreateAsync(Post post, List<int>? selectedTagIds, IFormFile? headerImageFile = null)
         {
             post.HeaderImageUrl = await _fileService.UploadHeaderImageAsync(headerImageFile!, post, post.HeaderImageUrl);
 
@@ -90,22 +90,22 @@ namespace Blog.Services
             post.UpdatedAt = DateTime.UtcNow;
 
             await _postRepository.AddAsync(post);
-            await _postRepository.SyncTagsAsync(post);
+            await _postRepository.SyncTagsAsync(post, selectedTagIds);
             return await _postRepository.SaveChangesAsync();
         }
 
-        public override async Task<int> UpdateAsync(Post post)
+        public async Task<int> UpdateAsync(Post post, List<int>? selectedTagIds)
         {
             post.Slug = GenerateSlug(post);
             post.UpdatedAt = DateTime.UtcNow;
             _postRepository.Update(post);
 
-            await _postRepository.SyncTagsAsync(post);
+            await _postRepository.SyncTagsAsync(post, selectedTagIds);
 
             return await _postRepository.SaveChangesAsync();
         }
 
-        public async Task<int> UpdateAsync(Post post, IFormFile? headerImageFile = null)
+        public async Task<int> UpdateAsync(Post post, List<int>? selectedTagIds, IFormFile? headerImageFile = null)
         {
             post.Slug = GenerateSlug(post);
 
@@ -114,7 +114,7 @@ namespace Blog.Services
             post.UpdatedAt = DateTime.UtcNow;
 
             _postRepository.Update(post);
-            await _postRepository.SyncTagsAsync(post);
+            await _postRepository.SyncTagsAsync(post, selectedTagIds);
             return await _postRepository.SaveChangesAsync();
         }
 
@@ -128,6 +128,6 @@ namespace Blog.Services
 
         private string GenerateSlug(Post post) => Uri.EscapeDataString($"{post.Title.ToLower().Replace(" ", "-")}-{post.Id}");
 
-        public string GetFullUrl(Post post) => $"https://domainname.com/blog/{post.Slug}";
+        public string GetFullUrl(Post post) => $"https://quazi-mushroof-abdullah.com/blog/{post.Slug}";
     }
 }

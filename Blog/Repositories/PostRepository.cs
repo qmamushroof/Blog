@@ -25,21 +25,19 @@ namespace Blog.Repositories
             .Include(p => p.PostTags).ThenInclude(pt => pt.Tag)
             .ToListAsync();
 
-        public async Task SyncTagsAsync(Post post)
+        public async Task SyncTagsAsync(Post post, List<int>? selectedTagIds)
         {
-            var tags = post.PostTags;
-            var selectedTagIds = new List<int>();
-            foreach (var tag in tags) selectedTagIds.Add(tag.TagId);
-
             var existingPostTagsOfThisPost =
                 await _context.PostTags.Where(pt => pt.PostId == post.Id).ToListAsync();
 
             var postTagsToBeRemovedFromThisPost =
+                selectedTagIds == null ? existingPostTagsOfThisPost :
                 existingPostTagsOfThisPost.Where(pt => !selectedTagIds.Contains(pt.TagId)).ToList();
 
             _context.PostTags.RemoveRange(postTagsToBeRemovedFromThisPost);
 
             var tagIdsToBeAddedToThisPost =
+                selectedTagIds == null ? new List<int>() :
                 selectedTagIds.Where(tagId => !existingPostTagsOfThisPost.Any(pt => pt.TagId == tagId)).ToList();
 
             var postTagsToBeAddedToThisPost =
