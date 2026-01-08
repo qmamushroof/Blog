@@ -75,6 +75,7 @@ namespace Blog.Services
             post.CreatedAt = DateTime.UtcNow;
             post.UpdatedAt = DateTime.UtcNow;
             await _postRepository.AddAsync(post);
+            await _postRepository.SaveChangesAsync();
 
             await _postRepository.SyncTagsAsync(post, selectedTagIds);
 
@@ -90,6 +91,8 @@ namespace Blog.Services
             post.UpdatedAt = DateTime.UtcNow;
 
             await _postRepository.AddAsync(post);
+            await _postRepository.SaveChangesAsync();
+
             await _postRepository.SyncTagsAsync(post, selectedTagIds);
             return await _postRepository.SaveChangesAsync();
         }

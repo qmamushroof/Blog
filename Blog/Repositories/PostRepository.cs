@@ -13,6 +13,21 @@ namespace Blog.Repositories
 
         public PostRepository(ApplicationDbContext context) : base(context) => _context = context;
 
+        public override async Task<Post?> GetByIdAsync(int id) => await _context.Posts
+            .Include(p => p.Category)
+            .Include(p => p.PostTags).ThenInclude(pt => pt.Tag)
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        public override async Task<Post?> GetBySlugAsync(string slug) => await _context.Posts
+            .Include(p => p.Category)
+            .Include(p => p.PostTags).ThenInclude(pt => pt.Tag)
+            .FirstOrDefaultAsync(p => p.Slug == slug);
+
+        public override async Task<IEnumerable<Post>> GetAllAsync() => await _context.Posts
+            .Include(p => p.Category)
+            .Include(p => p.PostTags).ThenInclude(pt => pt.Tag)
+            .ToListAsync();
+
         public async Task<ICollection<Post>> GetPostsByStatusAsync(PostStatus status)
             => await _context.Posts.Where(p => p.Status == status)
             .Include(p => p.Category)
