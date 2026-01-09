@@ -17,5 +17,9 @@ namespace Blog.Services
             var checkedPosts = await _postService.ExpireOverduePostsAsync(uncheckedPosts);
             return checkedPosts;
         }
+
+        private string GenerateSlug(Category category) => Uri.EscapeDataString($"{category.Name.ToLower().Replace(" ", "-")}-{category.Id}");
+
+        public string GetFullUrl(Category category) => $"https://quazi-mushroof-abdullah.com/blog/{category.Slug}";
     }
 }
