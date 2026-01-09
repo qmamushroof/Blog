@@ -22,18 +22,12 @@ namespace Blog.Services
 
             if (file == null || file.Length == 0) return existingUrl;
 
-            string fileName = DateTime.UtcNow.ToString() + post!.Id! + post!.Title! + Guid.NewGuid() + "header" + Path.GetExtension(file.FileName);
-            string filePath = Path.Combine(_environment.WebRootPath, _uploadPath, fileName);
-
-            using var stream = new FileStream(filePath, FileMode.Create);
-            await file.CopyToAsync(stream);
-
-            return $"/{_uploadPath}/{fileName}";
+            return await UploadContentImageAsync(file, post);
         }
 
         public async Task<string?> UploadContentImageAsync(IFormFile file, Post? post = null)
         {
-            string fileName = DateTime.UtcNow.ToString() + post!.Id! + post!.Title! + Guid.NewGuid() + "content" + Path.GetExtension(file.FileName);
+            string fileName = DateTime.UtcNow.ToString() + post!.Id! + post!.Title! + Guid.NewGuid() + Path.GetExtension(file.FileName);
             string filePath = Path.Combine(_environment.WebRootPath, _uploadPath, fileName);
 
             using var stream = new FileStream(filePath, FileMode.Create);
