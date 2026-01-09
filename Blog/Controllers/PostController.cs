@@ -8,8 +8,13 @@ namespace Blog.Controllers
     public class PostController : Controller
     {
         private readonly IPostService _postService;
+        private readonly IFileService _fileService;
 
-        public PostController(IPostService postService) => _postService = postService;
+        public PostController(IPostService postService, IFileService fileService)
+        {
+            _postService = postService;
+            _fileService = fileService;
+        }
 
         public async Task<IActionResult> ShowPublishedPosts()
         {
@@ -35,6 +40,10 @@ namespace Blog.Controllers
 
             return View(postsViewModel);
         }
+
+        [HttpPost("Upload/Image/Content")]
+        public async Task<IActionResult> UploadContentImage(IFormFile file)
+            => Json(new { location = await _fileService.UploadContentImageAsync(file) });
 
         public async Task<IActionResult> Create()
         {
