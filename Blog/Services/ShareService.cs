@@ -1,4 +1,5 @@
 ﻿using Blog.Models.Entities;
+using Blog.Models.Enums;
 using Blog.Repositories.Interfaces;
 using Blog.Services.Interfaces;
 
@@ -31,8 +32,8 @@ namespace Blog.Services
             return await CreateAsync(share);
         }
 
-        public string GetRedirectUrl(string platform, string url)
-            => platform.ToLower() switch
+        public string GetRedirectUrl(SocialPlatform platform, string url)
+            => platform.ToString().ToLower() switch
             {
                 "facebook" => $"https://www.facebook.com/sharer.php?u={Uri.EscapeDataString(url)}",
                 "twitter" => $"https://twitter.com/intent/tweet?url={Uri.EscapeDataString(url)}",

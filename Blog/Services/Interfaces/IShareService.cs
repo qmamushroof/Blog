@@ -1,4 +1,5 @@
 ﻿using Blog.Models.Entities;
+using Blog.Models.Enums;
 
 namespace Blog.Services.Interfaces
 {
@@ -6,6 +7,6 @@ namespace Blog.Services.Interfaces
     {
         Task<ICollection<ShareTrack>> GetSharesByPostIdAsync(int postId);
         Task<int> TrackShareAsync(ShareTrack share);
-        string GetRedirectUrl(string platform, string url);
+        string GetRedirectUrl(SocialPlatform platform, string url);
     }
 }

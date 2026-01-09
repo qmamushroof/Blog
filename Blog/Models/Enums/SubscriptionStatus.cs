@@ -2,7 +2,7 @@
 {
     public enum SubscriptionStatus
     {
-        Subscribed,
-        Unsubscribed
+        Subscribed = 0,
+        Unsubscribed = 1
     }
 }

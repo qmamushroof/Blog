@@ -15,8 +15,8 @@ namespace Blog.Data.Configurations
 
             builder.Property(p => p.Content).IsRequired();
 
-            builder.Property(p => p.Status).HasConversion<string>().HasMaxLength(50);
-            builder.Property(p => p.Priority).HasConversion<string>().HasMaxLength(50);
+            builder.Property(p => p.Status);
+            builder.Property(p => p.Priority);
 
             builder.Property(p => p.HeaderImageUrl).HasMaxLength(500);
             builder.Property(p => p.AuthorId).HasMaxLength(100);

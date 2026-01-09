@@ -1,4 +1,5 @@
 ﻿using Blog.Models.Entities;
+using Blog.Models.Enums;
 using Blog.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +12,7 @@ namespace Blog.Controllers
         public ShareController(IShareService shareService) => _shareService = shareService;
 
         [HttpGet("share/track/{platform}/{postId}")]
-        public async Task<IActionResult> TrackShare(string platform, int postId, [FromQuery] string url)
+        public async Task<IActionResult> TrackShare(SocialPlatform platform, int postId, [FromQuery] string url)
         {
             var share = new ShareTrack
             {

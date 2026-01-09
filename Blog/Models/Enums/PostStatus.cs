@@ -2,9 +2,9 @@
 {
     public enum PostStatus
     {
-        Draft,
-        Published,
-        Expired,
-        SoftDeleted
+        Draft = 0,
+        Published = 1,
+        Expired = 2,
+        SoftDeleted = 3
     }
 }

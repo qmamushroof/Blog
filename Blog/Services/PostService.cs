@@ -78,20 +78,18 @@ namespace Blog.Services
             await _postRepository.SaveChangesAsync();
 
             await _postRepository.SyncTagsAsync(post, selectedTagIds);
-
             return await _postRepository.SaveChangesAsync();
         }
 
         public async Task<int> CreateAsync(Post post, List<int>? selectedTagIds, IFormFile? headerImageFile = null)
         {
-            post.HeaderImageUrl = await _fileService.UploadHeaderImageAsync(headerImageFile!, post, post.HeaderImageUrl);
-
             post.Slug = GenerateSlug(post);
             post.CreatedAt = DateTime.UtcNow;
             post.UpdatedAt = DateTime.UtcNow;
-
             await _postRepository.AddAsync(post);
             await _postRepository.SaveChangesAsync();
+
+            post.HeaderImageUrl = await _fileService.UploadHeaderImageAsync(headerImageFile!, post, post.HeaderImageUrl);
 
             await _postRepository.SyncTagsAsync(post, selectedTagIds);
             return await _postRepository.SaveChangesAsync();

@@ -2,8 +2,8 @@
 {
     public enum PostPriority
     {
-        Normal,
-        Hot,
-        Pinned
+        Normal = 0,
+        Hot = 1,
+        Pinned = 2
     }
 }

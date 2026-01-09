@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Blog.Models.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Net;
 
 namespace Blog.Models.Entities
@@ -7,7 +8,7 @@ namespace Blog.Models.Entities
     {
         public int Id { get; set; }
 
-        public string? Platform { get; set; }
+        public SocialPlatform? Platform { get; set; }
         public string? ShareUrl { get; set; }
         public DateTime SharedAt { get; set; } = DateTime.UtcNow;
 
