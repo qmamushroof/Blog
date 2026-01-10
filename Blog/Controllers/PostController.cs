@@ -43,7 +43,7 @@ namespace Blog.Controllers
 
         [HttpPost("Upload/Image/Content")]
         public async Task<IActionResult> UploadContentImage(IFormFile file)
-            => Json(new { location = await _fileService.UploadContentImageAsync(file) });
+            => Json(new { location = await _fileService.UploadImageAsync(file) });
 
         public async Task<IActionResult> Create()
         {

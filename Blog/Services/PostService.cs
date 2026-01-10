@@ -89,7 +89,7 @@ namespace Blog.Services
             await _postRepository.AddAsync(post);
             await _postRepository.SaveChangesAsync();
 
-            post.HeaderImageUrl = await _fileService.UploadHeaderImageAsync(headerImageFile!, post, post.HeaderImageUrl);
+            post.HeaderImageUrl = await _fileService.UploadImageAsync(headerImageFile!, post.HeaderImageUrl);
 
             await _postRepository.SyncTagsAsync(post, selectedTagIds);
             return await _postRepository.SaveChangesAsync();

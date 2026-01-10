@@ -15,19 +15,16 @@ namespace Blog.Services
             Directory.CreateDirectory(absolutePath);
         }
 
-        public async Task<string?> UploadHeaderImageAsync(IFormFile file, Post? post = null, string? existingUrl = null)
+        public async Task<string?> UploadImageAsync(IFormFile file, string? existingUrl = null)
         {
-            if (!string.IsNullOrEmpty(existingUrl) && file != null)
-                await DeleteFileAsync(existingUrl);
-
             if (file == null || file.Length == 0) return existingUrl;
 
-            return await UploadContentImageAsync(file, post);
-        }
+            if (!file.ContentType.StartsWith("image/")) throw new ArgumentException("Only images allowed.");
+            if (file.Length > 5 * 1024 * 1024) throw new ArgumentException("Max limit is 5 MB.");
 
-        public async Task<string?> UploadContentImageAsync(IFormFile file, Post? post = null)
-        {
-            string fileName = DateTime.UtcNow.ToString() + post!.Id! + post!.Title! + Guid.NewGuid() + Path.GetExtension(file.FileName);
+            if (!string.IsNullOrEmpty(existingUrl) && file != null) await DeleteFileAsync(existingUrl);
+
+            string fileName = DateTime.UtcNow.ToString("yyyyMMdd-HHmmss") + Guid.NewGuid() + Path.GetExtension(file!.FileName);
             string filePath = Path.Combine(_environment.WebRootPath, _uploadPath, fileName);
 
             using var stream = new FileStream(filePath, FileMode.Create);
@@ -40,7 +37,7 @@ namespace Blog.Services
         {
             if (!string.IsNullOrEmpty(fileUrl))
             {
-                string filePath = Path.Combine(_environment.WebRootPath, fileUrl.TrimEnd('/'));
+                string filePath = Path.Combine(_environment.WebRootPath, fileUrl.TrimStart('/'));
                 await Task.Run(() => File.Delete(filePath));
             }
         }
