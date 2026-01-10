@@ -67,13 +67,8 @@ namespace Blog.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Delete(int id)
-        {
-            return View();
-        }
-
         [HttpPost]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             return View();
         }
