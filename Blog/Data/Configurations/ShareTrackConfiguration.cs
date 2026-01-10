@@ -13,10 +13,10 @@ namespace Blog.Data.Configurations
 
             builder.Property(st => st.Platform);
 
-            builder.Property(st => st.SharedAt).HasMaxLength(500);
+            builder.Property(st => st.SharedAt);
 
             builder.Property(st => st.UserIp)
-            .HasColumnType("varbinary(16)")
+            .HasMaxLength(16)
             .HasConversion(
                 v => v!.GetAddressBytes(),
                 v => new IPAddress(v)
