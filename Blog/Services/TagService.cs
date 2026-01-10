@@ -6,8 +6,14 @@ namespace Blog.Services
 {
     public class TagService : Service<Tag>, ITagService
     {
+        private readonly ITagRepository _tagRepository;
         private readonly IPostService _postService;
-        public TagService(ITagRepository tagRepository, IPostService postService) : base(tagRepository) => _postService = postService;
+
+        public TagService(ITagRepository tagRepository, IPostService postService) : base(tagRepository)
+        {
+            _tagRepository = tagRepository;
+            _postService = postService;
+        }
 
         public async Task<ICollection<Post>> GetPostsByTagIdAsync(int id)
         {
@@ -23,6 +29,20 @@ namespace Blog.Services
 
             var checkedPosts = await _postService.ExpireOverduePostsAsync(uncheckedPosts);
             return checkedPosts;
+        }
+
+        public override async Task<int> CreateAsync(Tag tag)
+        {
+            tag.Slug = GenerateSlug(tag);
+            await _tagRepository.AddAsync(tag);
+            return await _tagRepository.SaveChangesAsync();
+        }
+
+        public override async Task<int> UpdateAsync(Tag tag)
+        {
+            tag.Slug = GenerateSlug(tag);
+            _tagRepository.Update(tag);
+            return await _tagRepository.SaveChangesAsync();
         }
 
         private string GenerateSlug(Tag tag) => Uri.EscapeDataString($"{tag.Name.ToLower().Replace(" ", "-")}-{tag.Id}");

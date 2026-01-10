@@ -6,8 +6,14 @@ namespace Blog.Services
 {
     public class CategoryService : Service<Category>, ICategoryService
     {
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IPostService _postService;
-        public CategoryService(ICategoryRepository categoryRepository, IPostService postService) : base(categoryRepository) => _postService = postService;
+
+        public CategoryService(ICategoryRepository categoryRepository, IPostService postService) : base(categoryRepository)
+        {
+            _categoryRepository = categoryRepository;
+            _postService = postService;
+        }
 
         public async Task<ICollection<Post>> GetPostsByCategoryIdAsync(int id)
         {
@@ -16,6 +22,20 @@ namespace Blog.Services
 
             var checkedPosts = await _postService.ExpireOverduePostsAsync(uncheckedPosts);
             return checkedPosts;
+        }
+
+        public override async Task<int> CreateAsync(Category category)
+        {
+            category.Slug = GenerateSlug(category);
+            await _categoryRepository.AddAsync(category);
+            return await _categoryRepository.SaveChangesAsync();
+        }
+
+        public override async Task<int> UpdateAsync(Category category)
+        {
+            category.Slug = GenerateSlug(category);
+            _categoryRepository.Update(category);
+            return await _categoryRepository.SaveChangesAsync();
         }
 
         private string GenerateSlug(Category category) => Uri.EscapeDataString($"{category.Name.ToLower().Replace(" ", "-")}-{category.Id}");
