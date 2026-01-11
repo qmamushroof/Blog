@@ -26,9 +26,9 @@ namespace Blog.Data.Seeding
                 new Post
                 {
                     Id = 1,
-                    Title = "Welcome to Studynet Blog",
-                    Slug = "welcome-to-studynet-blog",
-                    Content = "<p>This is our first blog post...</p>",
+                    Title = "Welcome to My Blog",
+                    Slug = "welcome-to-my-blog",
+                    Content = "<p>This is my first blog post...</p>",
                     Status = PostStatus.Published,
                     Priority = PostPriority.Pinned,
                     PublishedAt = new DateTime(2025, 12, 17),

@@ -1,4 +1,5 @@
 ﻿using Blog.Models.Entities;
+using Blog.Models.Enums;
 using Blog.Repositories.Interfaces;
 using Blog.Services.Interfaces;
 
@@ -21,6 +22,7 @@ namespace Blog.Services
             var postIds = tag!.PostTags.Select(pt => pt.PostId).ToList();
 
             var uncheckedPosts = new List<Post>();
+
             foreach (int postId in postIds)
             {
                 var post = await _postService.GetByIdAsync(postId);
@@ -29,6 +31,13 @@ namespace Blog.Services
 
             var checkedPosts = await _postService.ExpireOverduePostsAsync(uncheckedPosts);
             return checkedPosts;
+        }
+
+        public async Task<ICollection<Post>> GetPublishedPostsByTagIdAsync(int id)
+        {
+            var posts = await GetPostsByTagIdAsync(id);
+            var publishedPosts = posts.Where(p => p.Status == PostStatus.Published).ToList();
+            return publishedPosts;
         }
 
         public override async Task<int> CreateAsync(Tag tag)
@@ -48,5 +57,17 @@ namespace Blog.Services
         private string GenerateSlug(Tag tag) => Uri.EscapeDataString($"{tag.Name.ToLower().Replace(" ", "-")}-{tag.Id}");
 
         public string GetFullUrl(Tag tag) => $"https://quazi-mushroof-abdullah.com/blog/{tag.Slug}";
+
+        public async Task<int> CountSubmittedPostsByTagIdAsync(int id)
+        {
+            var posts = await GetPostsByTagIdAsync(id);
+            return posts.Count;
+        }
+
+        public async Task<int> CountPublishedPostsByTagIdAsync(int id)
+        {
+            var posts = await GetPublishedPostsByTagIdAsync(id);
+            return posts.Count;
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace Blog.Repositories
             .Include(p => p.PostTags).ThenInclude(pt => pt.Tag)
             .ToListAsync();
 
-        public async Task SyncTagsAsync(Post post, List<int>? selectedTagIds)
+        public async Task SyncTagsAsync(Post post, ICollection<int>? selectedTagIds)
         {
             var existingPostTagsOfThisPost =
                 await _context.PostTags.Where(pt => pt.PostId == post.Id).ToListAsync();

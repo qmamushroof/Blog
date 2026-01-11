@@ -2,18 +2,51 @@
 using Blog.Models.ViewModels;
 using Blog.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Blog.Controllers
 {
     public class PostController : Controller
     {
         private readonly IPostService _postService;
+        private readonly ICategoryService _categoryService;
+        private readonly ITagService _tagService;
         private readonly IFileService _fileService;
 
-        public PostController(IPostService postService, IFileService fileService)
+        public PostController(IPostService postService, ICategoryService categoryService, ITagService tagService, IFileService fileService)
         {
             _postService = postService;
+            _categoryService = categoryService;
+            _tagService = tagService;
             _fileService = fileService;
+        }
+
+        public async Task<IActionResult> ShowAllPosts()
+        {
+            IEnumerable<Post> posts = await _postService.GetAllAsync();
+            var postsViewModel = new List<PostAdminListViewModel>();
+            foreach (var post in posts)
+            {
+                var postViewModel = new PostAdminListViewModel
+                {
+                    Id = post.Id,
+                    Title = post.Title,
+                    Excerpt = post.Content.Length > 300 ? post.Content.Substring(0, 300) + "..." : post.Content,
+                    Author = post.AuthorId ?? "Quazi Mushroof Abdullah",
+                    Category = post.Category!.Name ?? "Uncategorized",
+                    CreatedAt = post.CreatedAt,
+                    UpdatedAt = post.UpdatedAt,
+                    PublishedAt = post.PublishedAt.GetValueOrDefault(),
+                    DeletedAt = post.DeletedAt.GetValueOrDefault(),
+                    Deadline = post.Deadline.GetValueOrDefault(),
+                    HeaderImageUrl = post.HeaderImageUrl,
+                    Tags = post.PostTags.Select(pt => pt.Tag!.Name ?? "Untagged").ToList(),
+                    ShareCount = post.ShareCount
+                };
+
+                postsViewModel.Add(postViewModel);
+            }
+            return View(postsViewModel);
         }
 
         public async Task<IActionResult> ShowPublishedPosts()
@@ -27,7 +60,7 @@ namespace Blog.Controllers
                     Id = post.Id,
                     Title = post.Title,
                     Excerpt = post.Content.Length > 300 ? post.Content.Substring(0, 300) + "..." : post.Content,
-                    Author = post.AuthorId ?? "StudyNet",
+                    Author = post.AuthorId ?? "Quazi Mushroof Abdullah",
                     Category = post.Category!.Name ?? "Uncategorized",
                     PublishedAt = post.PublishedAt.GetValueOrDefault(),
                     HeaderImageUrl = post.HeaderImageUrl,
@@ -37,40 +70,115 @@ namespace Blog.Controllers
 
                 postsViewModel.Add(postViewModel);
             }
-
             return View(postsViewModel);
         }
 
-        [HttpPost("Upload/Image/Content")]
-        public async Task<IActionResult> UploadContentImage(IFormFile file)
-            => Json(new { location = await _fileService.UploadImageAsync(file) });
+        public async Task<IActionResult> ShowPost(int id)
+        {
+            var post = await _postService.GetByIdAsync(id);
+            var viewModel = new PostDetailViewModel
+            {
+                Title = post.Title,
+                Content = post.Content,
+                Author = post.AuthorId,
+                Category = post.Category.ToString(),
+                PublishedAt = post.PublishedAt,
+                HeaderImageUrl = post.HeaderImageUrl,
+                Tags = post.PostTags.Select(pt => pt.Tag.Name ?? "Untagged").ToList(),
+                ShareCount = post.ShareCount
+            };
+            return View(viewModel);
+        }
 
         public async Task<IActionResult> Create()
         {
-            return View();
+            var viewModel = new PostCreateEditViewModel
+            {
+                Categories = (await _categoryService.GetAllAsync())
+                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
+                .OrderBy(c => c.Text)
+                .ToList(),
+
+                Tags = (await _tagService.GetAllAsync())
+                .Select(t => new SelectListItem { Value = t.Id.ToString(), Text = t.Name })
+                .OrderBy(t => t.Text)
+                .ToList(),
+            };
+            return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Post post)
+        public async Task<IActionResult> Create(PostCreateEditViewModel viewModel)
         {
+            var post = new Post
+            {
+                Id = viewModel.Id,
+                Title = viewModel.Title,
+                Content = viewModel.Content,
+                Status = viewModel.Status,
+                Priority = viewModel.Priority,
+                Deadline = viewModel.Deadline,
+                CategoryId = viewModel.CategoryId
+            };
+            await _postService.CreateAsync(post, viewModel.SelectedTagIds, viewModel.HeaderImageFile);
             return View();
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var post = await _postService.GetByIdAsync(id);
+
+            var viewModel = new PostCreateEditViewModel
+            {
+                Id = id,
+                Title = post.Title,
+                Content = post.Content,
+                Status = post.Status,
+                Priority = post.Priority,
+                Deadline = post.Deadline,
+                HeaderImageUrl = post.HeaderImageUrl,
+                CategoryId = post.CategoryId,
+
+                Categories = (await _categoryService.GetAllAsync())
+                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
+                .OrderBy(c => c.Text)
+                .ToList(),
+
+                SelectedTagIds = post.PostTags.Select(pt => pt.TagId).ToList(),
+
+                Tags = (await _tagService.GetAllAsync())
+                .Select(t => new SelectListItem { Value = t.Id.ToString(), Text = t.Name })
+                .OrderBy(t => t.Text)
+                .ToList()
+            };
+            return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Post post)
+        public async Task<IActionResult> Edit(PostCreateEditViewModel viewModel)
         {
+            var post = new Post
+            {
+                Title = viewModel.Title,
+                Content = viewModel.Content,
+                Status = viewModel.Status,
+                Priority = viewModel.Priority,
+                Deadline = viewModel.Deadline,
+                CategoryId = viewModel.CategoryId
+            };
+            await _postService.UpdateAsync(post, viewModel.SelectedTagIds, viewModel.HeaderImageFile);
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            var post = _postService.SoftDeletePostByIdAsync(id);
             return View();
         }
+
+        [HttpPost("Upload/Image/Content")]
+        public async Task<IActionResult> UploadContentImage(IFormFile file)
+            => Json(new { location = await _fileService.UploadImageAsync(file) });
     }
 }

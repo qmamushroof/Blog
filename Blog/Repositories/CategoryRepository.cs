@@ -1,6 +1,7 @@
 ﻿using Blog.Data;
 using Blog.Models.Entities;
 using Blog.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Repositories
 {

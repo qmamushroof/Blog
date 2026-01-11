@@ -1,6 +1,8 @@
 ﻿using Blog.Models.Entities;
+using Blog.Models.Enums;
 using Blog.Repositories.Interfaces;
 using Blog.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace Blog.Services
 {
@@ -17,12 +19,22 @@ namespace Blog.Services
 
         public async Task<ICollection<Post>> GetPostsByCategoryIdAsync(int id)
         {
-            var category = await GetByIdAsync(id);
-            var uncheckedPosts = category!.Posts.ToList();
+            var uncheckedPosts = (await _postService.GetAllAsync())
+                .Where(p => p.CategoryId == id)
+                .ToList();
 
             var checkedPosts = await _postService.ExpireOverduePostsAsync(uncheckedPosts);
             return checkedPosts;
         }
+
+        public async Task<ICollection<Post>> GetPublishedPostsByCategoryIdAsync(int id)
+        {
+            var posts = await GetPostsByCategoryIdAsync(id);
+            var publishedPosts = posts.Where(p => p.Status == PostStatus.Published).ToList();
+            return publishedPosts;
+        }
+
+        private string GenerateSlug(Category category) => Uri.EscapeDataString($"{category.Name.ToLower().Replace(" ", "-")}-{category.Id}");
 
         public override async Task<int> CreateAsync(Category category)
         {
@@ -38,8 +50,18 @@ namespace Blog.Services
             return await _categoryRepository.SaveChangesAsync();
         }
 
-        private string GenerateSlug(Category category) => Uri.EscapeDataString($"{category.Name.ToLower().Replace(" ", "-")}-{category.Id}");
-
         public string GetFullUrl(Category category) => $"https://quazi-mushroof-abdullah.com/blog/{category.Slug}";
+
+        public async Task<int> CountSubmittedPostsByCategoryIdAsync(int id)
+        {
+            var categories = await GetPostsByCategoryIdAsync(id);
+            return categories.Count;
+        }
+
+        public async Task<int> CountPublishedPostsByCategoryIdAsync(int id)
+        {
+            var categories = await GetPublishedPostsByCategoryIdAsync(id);
+            return categories.Count;
+        }
     }
 }

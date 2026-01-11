@@ -1,6 +1,4 @@
-﻿using Blog.Models.Entities;
-
-namespace Blog.Services.Interfaces
+﻿namespace Blog.Services.Interfaces
 {
     public interface IFileService
     {

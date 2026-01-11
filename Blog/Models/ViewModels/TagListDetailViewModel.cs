@@ -1,11 +1,15 @@
-﻿namespace Blog.Models.ViewModels
+﻿using Blog.Models.Entities;
+
+namespace Blog.Models.ViewModels
 {
-    public class CategoryAdminListViewModel
+    public class TagListDetailViewModel
     {
         public int Id { get; set; }
 
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
+
+        public ICollection<Post>? Posts { get; set; }
 
         public int PostCount { get; set; }
     }

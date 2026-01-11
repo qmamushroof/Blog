@@ -6,13 +6,12 @@ namespace Blog.Models.ViewModels
 {
     public class PostCreateEditViewModel
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         [Required, StringLength(300)]
         public string Title { get; set; } = string.Empty;
         [Required]
         public string Content { get; set; } = string.Empty;
-        public string Author { get; set; } = string.Empty;
 
         public PostStatus Status { get; set; } = PostStatus.Draft;
         public PostPriority Priority { get; set; } = PostPriority.Normal;

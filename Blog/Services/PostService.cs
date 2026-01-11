@@ -69,21 +69,10 @@ namespace Blog.Services
         public async Task<ICollection<Post>> GetHotPostsAsync()
             => await GetTopPostsByPriorityAsync(PostPriority.Hot);
 
-        public async Task<int> CreateAsync(Post post, List<int>? selectedTagIds)
+        public async Task<int> CreateAsync(Post post, ICollection<int> selectedTagIds, IFormFile? headerImageFile = null)
         {
             post.Slug = GenerateSlug(post);
-            post.CreatedAt = DateTime.UtcNow;
-            post.UpdatedAt = DateTime.UtcNow;
-            await _postRepository.AddAsync(post);
-            await _postRepository.SaveChangesAsync();
-
-            await _postRepository.SyncTagsAsync(post, selectedTagIds);
-            return await _postRepository.SaveChangesAsync();
-        }
-
-        public async Task<int> CreateAsync(Post post, List<int>? selectedTagIds, IFormFile? headerImageFile = null)
-        {
-            post.Slug = GenerateSlug(post);
+            //post.AuthorId = ApplicationUser.GetUserId();
             post.CreatedAt = DateTime.UtcNow;
             post.UpdatedAt = DateTime.UtcNow;
             await _postRepository.AddAsync(post);
@@ -95,22 +84,11 @@ namespace Blog.Services
             return await _postRepository.SaveChangesAsync();
         }
 
-        public async Task<int> UpdateAsync(Post post, List<int>? selectedTagIds)
-        {
-            post.Slug = GenerateSlug(post);
-            post.UpdatedAt = DateTime.UtcNow;
-            _postRepository.Update(post);
-
-            await _postRepository.SyncTagsAsync(post, selectedTagIds);
-
-            return await _postRepository.SaveChangesAsync();
-        }
-
-        public async Task<int> UpdateAsync(Post post, List<int>? selectedTagIds, IFormFile? headerImageFile = null)
+        public async Task<int> UpdateAsync(Post post, ICollection<int> selectedTagIds, IFormFile? headerImageFile = null)
         {
             post.Slug = GenerateSlug(post);
 
-            post.HeaderImageUrl = await _fileService.UploadHeaderImageAsync(headerImageFile!, post, post.HeaderImageUrl);
+            post.HeaderImageUrl = await _fileService.UploadImageAsync(headerImageFile!, post.HeaderImageUrl);
 
             post.UpdatedAt = DateTime.UtcNow;
 
