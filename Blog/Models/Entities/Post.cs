@@ -31,8 +31,8 @@ namespace Blog.Models.Entities
         public string? AuthorId { get; set; } = string.Empty;
         //public ApplicationUser? Author { get; set; }
 
-        public ICollection<PostTag> PostTags { get; set; } = new List<PostTag>();
-        public ICollection<ShareTrack> ShareTracks { get; set; } = new List<ShareTrack>();
+        public ICollection<PostTag> PostTags { get; set; } = new HashSet<PostTag>();
+        public ICollection<ShareTrack> ShareTracks { get; set; } = new HashSet<ShareTrack>();
 
         public int ShareCount { get; set; } = 0;
     }

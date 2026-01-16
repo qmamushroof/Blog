@@ -8,6 +8,6 @@
         public string? Description { get; set; }
         public string Slug { get; set; } = string.Empty;
 
-        public ICollection<PostTag> PostTags { get; set; } = new List<PostTag>();
+        public ICollection<PostTag> PostTags { get; set; } = new HashSet<PostTag>();
     }
 }

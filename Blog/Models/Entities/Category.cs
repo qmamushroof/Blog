@@ -10,6 +10,6 @@ namespace Blog.Models.Entities
         public string? Description { get; set; }
         public string Slug { get; set; } = string.Empty;
 
-        public ICollection<Post> Posts { get; set; } = new List<Post>();
+        public ICollection<Post> Posts { get; set; } = new HashSet<Post>();
     }
 }
