@@ -1,6 +1,6 @@
 ﻿namespace Blog.Models.Enums
 {
-    public enum SocialPlatform
+    public enum SocialPlatform : byte
     {
         Facebook = 0,
         LinkedIn = 1,

@@ -1,6 +1,6 @@
 ﻿namespace Blog.Models.Enums
 {
-    public enum PostPriority
+    public enum PostPriority : byte
     {
         Normal = 0,
         Hot = 1,
