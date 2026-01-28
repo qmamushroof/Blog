@@ -1,9 +1,7 @@
 ﻿using Blog.Models.Entities;
 using Blog.Models.ViewModels;
-using Blog.Services;
 using Blog.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Blog.Controllers
 {
@@ -13,7 +11,7 @@ namespace Blog.Controllers
 
         public CategoryController(ICategoryService categoryService) => _categoryService = categoryService;
 
-        public async Task<IActionResult> ShowAllCategories()
+        public async Task<IActionResult> AllCategories()
         {
             IEnumerable<Category> categories = await _categoryService.GetAllAsync();
             var categoriesViewModel = new List<CategoryListDetailViewModel>();
@@ -32,7 +30,7 @@ namespace Blog.Controllers
             return View(categoriesViewModel);
         }
 
-        public async Task<IActionResult> ShowCategory(int id)
+        public async Task<IActionResult> Detail(int id)
         {
             var category = await _categoryService.GetByIdAsync(id);
             var viewModel = new CategoryListDetailViewModel

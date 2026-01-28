@@ -11,7 +11,7 @@ namespace Blog.Controllers
 
         public TagController(ITagService tagService) => _tagService = tagService;
 
-        public async Task<IActionResult> ShowAllCategories()
+        public async Task<IActionResult> AllTags()
         {
             IEnumerable<Tag> tags = await _tagService.GetAllAsync();
             var tagsViewModel = new List<TagListDetailViewModel>();
@@ -30,7 +30,7 @@ namespace Blog.Controllers
             return View(tagsViewModel);
         }
 
-        public async Task<IActionResult> ShowCategory(int id)
+        public async Task<IActionResult> Detail(int id)
         {
             var tag = await _tagService.GetByIdAsync(id);
             var viewModel = new TagListDetailViewModel

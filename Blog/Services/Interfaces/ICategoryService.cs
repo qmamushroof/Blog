@@ -1,5 +1,4 @@
 ﻿using Blog.Models.Entities;
-using Blog.Models.Enums;
 
 namespace Blog.Services.Interfaces
 {

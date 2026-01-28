@@ -2,7 +2,6 @@
 using Blog.Models.Enums;
 using Blog.Repositories.Interfaces;
 using Blog.Services.Interfaces;
-using System.Threading.Tasks;
 
 namespace Blog.Services
 {
