@@ -18,7 +18,7 @@ namespace Blog.Services
 
         private ICollection<Post> OrderByPublishDate(ICollection<Post> posts) => posts.OrderByDescending(p => p.PublishedAt).ToList();
 
-        public async Task<ICollection<Post>> ExpireOverduePostsAsync(ICollection<Post> uncheckedPosts)
+        public async Task<ICollection<Post>> ManageOverduePostsAsync(ICollection<Post> uncheckedPosts)
         {
             var checkedPosts = new List<Post>();
             foreach (var post in uncheckedPosts)
@@ -34,7 +34,7 @@ namespace Blog.Services
         public async Task<ICollection<Post>> GetPostsByStatusAsync(PostStatus status)
         {
             var uncheckedPosts = await _postRepository.GetPostsByStatusAsync(status);
-            var checkedPosts = await ExpireOverduePostsAsync(uncheckedPosts);
+            var checkedPosts = await ManageOverduePostsAsync(uncheckedPosts);
             var orderedPosts = OrderByPublishDate(checkedPosts);
             return orderedPosts;
         }
@@ -52,7 +52,7 @@ namespace Blog.Services
         public async Task<ICollection<Post>> GetPostsByPriorityAsync(PostPriority priority)
         {
             var uncheckedPosts = await _postRepository.GetPostsByPriorityAsync(priority);
-            var checkedPosts = await ExpireOverduePostsAsync(uncheckedPosts);
+            var checkedPosts = await ManageOverduePostsAsync(uncheckedPosts);
             var orderedPosts = OrderByPublishDate(checkedPosts);
             return orderedPosts;
         }

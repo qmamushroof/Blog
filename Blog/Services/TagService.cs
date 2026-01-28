@@ -29,7 +29,7 @@ namespace Blog.Services
                 uncheckedPosts.Add(post!);
             }
 
-            var checkedPosts = await _postService.ExpireOverduePostsAsync(uncheckedPosts);
+            var checkedPosts = await _postService.ManageOverduePostsAsync(uncheckedPosts);
             return checkedPosts;
         }
 

@@ -23,7 +23,7 @@ namespace Blog.Services
                 .Where(p => p.CategoryId == id)
                 .ToList();
 
-            var checkedPosts = await _postService.ExpireOverduePostsAsync(uncheckedPosts);
+            var checkedPosts = await _postService.ManageOverduePostsAsync(uncheckedPosts);
             return checkedPosts;
         }
 
