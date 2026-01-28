@@ -16,6 +16,7 @@ namespace Blog.Models.ViewModels
         public PostStatus Status { get; set; } = PostStatus.Draft;
         public PostPriority Priority { get; set; } = PostPriority.Normal;
 
+        public DateTime? ScheduledAt { get; set; }
         public DateTime? Deadline { get; set; }
 
         public string? HeaderImageUrl { get; set; }

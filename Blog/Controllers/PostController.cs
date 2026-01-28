@@ -32,14 +32,15 @@ namespace Blog.Controllers
                     Id = post.Id,
                     Title = post.Title,
                     Excerpt = post.Content.Length > 300 ? post.Content.Substring(0, 300) + "..." : post.Content,
+                    HeaderImageUrl = post.HeaderImageUrl,
                     Author = post.AuthorId ?? "Quazi Mushroof Abdullah",
                     Category = post.Category!.Name ?? "Uncategorized",
                     CreatedAt = post.CreatedAt,
                     UpdatedAt = post.UpdatedAt,
+                    ScheduledAt = post.ScheduledAt.GetValueOrDefault(),
                     PublishedAt = post.PublishedAt.GetValueOrDefault(),
-                    DeletedAt = post.DeletedAt.GetValueOrDefault(),
                     Deadline = post.Deadline.GetValueOrDefault(),
-                    HeaderImageUrl = post.HeaderImageUrl,
+                    SoftDeletedAt = post.SoftDeletedAt.GetValueOrDefault(),
                     Tags = post.PostTags.Select(pt => pt.Tag!.Name ?? "Untagged").ToList(),
                     ShareCount = post.ShareCount
                 };
@@ -78,12 +79,13 @@ namespace Blog.Controllers
             var post = await _postService.GetByIdAsync(id);
             var viewModel = new PostDetailViewModel
             {
+                Id = post.Id,
                 Title = post.Title,
                 Content = post.Content,
+                HeaderImageUrl = post.HeaderImageUrl,
                 Author = post.AuthorId,
                 Category = post.Category.ToString(),
                 PublishedAt = post.PublishedAt,
-                HeaderImageUrl = post.HeaderImageUrl,
                 Tags = post.PostTags.Select(pt => pt.Tag.Name ?? "Untagged").ToList(),
                 ShareCount = post.ShareCount
             };
@@ -112,11 +114,11 @@ namespace Blog.Controllers
         {
             var post = new Post
             {
-                Id = viewModel.Id,
                 Title = viewModel.Title,
                 Content = viewModel.Content,
                 Status = viewModel.Status,
                 Priority = viewModel.Priority,
+                ScheduledAt = viewModel.ScheduledAt,
                 Deadline = viewModel.Deadline,
                 CategoryId = viewModel.CategoryId
             };
@@ -133,10 +135,11 @@ namespace Blog.Controllers
                 Id = id,
                 Title = post.Title,
                 Content = post.Content,
+                HeaderImageUrl = post.HeaderImageUrl,
                 Status = post.Status,
                 Priority = post.Priority,
+                ScheduledAt = post.ScheduledAt,
                 Deadline = post.Deadline,
-                HeaderImageUrl = post.HeaderImageUrl,
                 CategoryId = post.CategoryId,
 
                 Categories = (await _categoryService.GetAllAsync())
@@ -163,6 +166,7 @@ namespace Blog.Controllers
                 Content = viewModel.Content,
                 Status = viewModel.Status,
                 Priority = viewModel.Priority,
+                ScheduledAt = viewModel.ScheduledAt,
                 Deadline = viewModel.Deadline,
                 CategoryId = viewModel.CategoryId
             };

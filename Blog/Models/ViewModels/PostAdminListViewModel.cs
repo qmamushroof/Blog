@@ -8,6 +8,7 @@ namespace Blog.Models.ViewModels
 
         public string Title { get; set; } = string.Empty;
         public string Excerpt { get; set; } = string.Empty;
+        public string? HeaderImageUrl { get; set; }
         public string Author { get; set; } = string.Empty;
 
         public string Category { get; set; } = string.Empty;
@@ -17,12 +18,10 @@ namespace Blog.Models.ViewModels
 
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public DateTime? ScheduledAt { get; set; }
         public DateTime? PublishedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
-
         public DateTime? Deadline { get; set; }
-
-        public string? HeaderImageUrl { get; set; }
+        public DateTime? SoftDeletedAt { get; set; }
 
         public List<string>? Tags { get; set; }
 

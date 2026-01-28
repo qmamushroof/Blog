@@ -6,13 +6,13 @@
 
         public string Title { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
+        public string? HeaderImageUrl { get; set; }
         public string? Author { get; set; }
 
         public string? Category { get; set; }
 
         public DateTime? PublishedAt { get; set; }
 
-        public string? HeaderImageUrl { get; set; }
 
         public ICollection<string>? Tags { get; set; }
 

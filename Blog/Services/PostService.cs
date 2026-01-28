@@ -23,7 +23,8 @@ namespace Blog.Services
             var checkedPosts = new List<Post>();
             foreach (var post in uncheckedPosts)
             {
-                if (post.Deadline < DateTime.UtcNow) post.Status = PostStatus.Expired;
+                if (post.ScheduledAt != null && post.ScheduledAt < DateTime.UtcNow) post.Status = PostStatus.Published;
+                if (post.Deadline != null && post.Deadline < DateTime.UtcNow) post.Status = PostStatus.Expired;
                 await UpdateAsync(post);
                 checkedPosts.Add(post);
             }
@@ -101,7 +102,7 @@ namespace Blog.Services
         {
             var post = await _postRepository.GetByIdAsync(id);
             post!.Status = PostStatus.SoftDeleted;
-            post.DeletedAt = DateTime.UtcNow;
+            post.SoftDeletedAt = DateTime.UtcNow;
             return await _postRepository.SaveChangesAsync();
         }
 
