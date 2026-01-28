@@ -30,7 +30,7 @@ namespace Blog.Controllers
             return View(categoriesViewModel);
         }
 
-        public async Task<IActionResult> Detail(int id)
+        public async Task<IActionResult> CategoryDetail(int id)
         {
             var category = await _categoryService.GetByIdAsync(id);
             var viewModel = new CategoryListDetailViewModel
@@ -44,10 +44,10 @@ namespace Blog.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Create() => View(new CategoryCreateEditViewModel());
+        public async Task<IActionResult> CategoryCreate() => View(new CategoryCreateEditViewModel());
 
         [HttpPost]
-        public async Task<IActionResult> Create(CategoryCreateEditViewModel viewModel)
+        public async Task<IActionResult> CategoryCreate(CategoryCreateEditViewModel viewModel)
         {
             var category = new Category
             {
@@ -59,7 +59,7 @@ namespace Blog.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> CategoryEdit(int id)
         {
             var category = await _categoryService.GetByIdAsync(id);
 
@@ -73,7 +73,7 @@ namespace Blog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(CategoryCreateEditViewModel viewModel)
+        public async Task<IActionResult> CategoryEdit(CategoryCreateEditViewModel viewModel)
         {
             var category = new Category
             {
@@ -85,6 +85,6 @@ namespace Blog.Controllers
         }
 
         [HttpPost]
-        public async Task<int> Delete(int id) => await _categoryService.DeleteByIdAsync(id);
+        public async Task<int> CategoryDelete(int id) => await _categoryService.DeleteByIdAsync(id);
     }
 }

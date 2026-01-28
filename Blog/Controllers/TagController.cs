@@ -30,7 +30,7 @@ namespace Blog.Controllers
             return View(tagsViewModel);
         }
 
-        public async Task<IActionResult> Detail(int id)
+        public async Task<IActionResult> TagDetail(int id)
         {
             var tag = await _tagService.GetByIdAsync(id);
             var viewModel = new TagListDetailViewModel
@@ -44,14 +44,13 @@ namespace Blog.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Create() => View(new TagCreateEditViewModel());
+        public async Task<IActionResult> TagCreate() => View(new TagCreateEditViewModel());
 
         [HttpPost]
-        public async Task<IActionResult> Create(TagCreateEditViewModel viewModel)
+        public async Task<IActionResult> TagCreate(TagCreateEditViewModel viewModel)
         {
             var tag = new Tag
             {
-                Id = viewModel.Id,
                 Name = viewModel.Name,
                 Description = viewModel.Description
             };
@@ -59,7 +58,7 @@ namespace Blog.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> TagEdit(int id)
         {
             var tag = await _tagService.GetByIdAsync(id);
 
@@ -73,7 +72,7 @@ namespace Blog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(TagCreateEditViewModel viewModel)
+        public async Task<IActionResult> TagEdit(TagCreateEditViewModel viewModel)
         {
             var tag = new Tag
             {
@@ -85,6 +84,6 @@ namespace Blog.Controllers
         }
 
         [HttpPost]
-        public async Task<int> Delete(int id) => await _tagService.DeleteByIdAsync(id);
+        public async Task<int> TagDelete(int id) => await _tagService.DeleteByIdAsync(id);
     }
 }

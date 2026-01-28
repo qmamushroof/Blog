@@ -74,7 +74,7 @@ namespace Blog.Controllers
             return View(postsViewModel);
         }
 
-        public async Task<IActionResult> Detail(int id)
+        public async Task<IActionResult> PostDetail(int id)
         {
             var post = await _postService.GetByIdAsync(id);
             var viewModel = new PostDetailViewModel
@@ -92,7 +92,7 @@ namespace Blog.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> PostCreate()
         {
             var viewModel = new PostCreateEditViewModel
             {
@@ -110,7 +110,7 @@ namespace Blog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(PostCreateEditViewModel viewModel)
+        public async Task<IActionResult> PostCreate(PostCreateEditViewModel viewModel)
         {
             var post = new Post
             {
@@ -126,7 +126,7 @@ namespace Blog.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> PostEdit(int id)
         {
             var post = await _postService.GetByIdAsync(id);
 
@@ -158,7 +158,7 @@ namespace Blog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(PostCreateEditViewModel viewModel)
+        public async Task<IActionResult> PostEdit(PostCreateEditViewModel viewModel)
         {
             var post = new Post
             {
@@ -175,7 +175,7 @@ namespace Blog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> PostDelete(int id)
         {
             var post = _postService.SoftDeletePostByIdAsync(id);
             return View();
