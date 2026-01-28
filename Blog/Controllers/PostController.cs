@@ -21,7 +21,7 @@ namespace Blog.Controllers
             _fileService = fileService;
         }
 
-        public async Task<IActionResult> ShowAllPosts()
+        public async Task<IActionResult> AllPosts()
         {
             IEnumerable<Post> posts = await _postService.GetAllAsync();
             var postsViewModel = new List<PostAdminListViewModel>();
@@ -50,7 +50,7 @@ namespace Blog.Controllers
             return View(postsViewModel);
         }
 
-        public async Task<IActionResult> ShowPublishedPosts()
+        public async Task<IActionResult> PublishedPosts()
         {
             IEnumerable<Post> posts = await _postService.GetPublishedPostsAsync();
             var postsViewModel = new List<PostListViewModel>();
@@ -74,7 +74,7 @@ namespace Blog.Controllers
             return View(postsViewModel);
         }
 
-        public async Task<IActionResult> ShowPost(int id)
+        public async Task<IActionResult> Detail(int id)
         {
             var post = await _postService.GetByIdAsync(id);
             var viewModel = new PostDetailViewModel
