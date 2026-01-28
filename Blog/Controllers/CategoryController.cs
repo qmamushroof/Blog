@@ -51,7 +51,6 @@ namespace Blog.Controllers
         {
             var category = new Category
             {
-                Id = viewModel.Id,
                 Name = viewModel.Name,
                 Description = viewModel.Description
             };
