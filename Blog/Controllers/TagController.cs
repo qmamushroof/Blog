@@ -17,7 +17,7 @@ namespace Blog.Controllers
             var tagsViewModel = new List<TagListDetailViewModel>();
             foreach (var tag in tags)
             {
-                var tagViewModel = new TagListDetailViewModel
+                var viewModel = new TagListDetailViewModel
                 {
                     Id = tag.Id,
                     Name = tag.Name,
@@ -25,7 +25,7 @@ namespace Blog.Controllers
                     PostCount = await _tagService.CountPublishedPostsByTagIdAsync(tag.Id)
                 };
 
-                tagsViewModel.Add(tagViewModel);
+                tagsViewModel.Add(viewModel);
             }
             return View(tagsViewModel);
         }

@@ -27,7 +27,7 @@ namespace Blog.Controllers
             var postsViewModel = new List<PostAdminListViewModel>();
             foreach (var post in posts)
             {
-                var postViewModel = new PostAdminListViewModel
+                var viewModel = new PostAdminListViewModel
                 {
                     Id = post.Id,
                     Title = post.Title,
@@ -45,7 +45,7 @@ namespace Blog.Controllers
                     ShareCount = post.ShareCount
                 };
 
-                postsViewModel.Add(postViewModel);
+                postsViewModel.Add(viewModel);
             }
             return View(postsViewModel);
         }
@@ -56,7 +56,7 @@ namespace Blog.Controllers
             var postsViewModel = new List<PostListViewModel>();
             foreach (var post in posts)
             {
-                var postViewModel = new PostListViewModel
+                var viewModel = new PostListViewModel
                 {
                     Id = post.Id,
                     Title = post.Title,
@@ -69,7 +69,7 @@ namespace Blog.Controllers
                     ShareCount = post.ShareCount
                 };
 
-                postsViewModel.Add(postViewModel);
+                postsViewModel.Add(viewModel);
             }
             return View(postsViewModel);
         }

@@ -17,7 +17,7 @@ namespace Blog.Controllers
             var categoriesViewModel = new List<CategoryListDetailViewModel>();
             foreach (var category in categories)
             {
-                var categoryViewModel = new CategoryListDetailViewModel
+                var viewModel = new CategoryListDetailViewModel
                 {
                     Id = category.Id,
                     Name = category.Name,
@@ -25,7 +25,7 @@ namespace Blog.Controllers
                     PostCount = await _categoryService.CountPublishedPostsByCategoryIdAsync(category.Id)
                 };
 
-                categoriesViewModel.Add(categoryViewModel);
+                categoriesViewModel.Add(viewModel);
             }
             return View(categoriesViewModel);
         }
