@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Subscribers]
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
+	[Id] BIGINT NOT NULL PRIMARY KEY, 
     [Email] NCHAR(200) NOT NULL, 
     [SubscribedAt] DATETIME2 NOT NULL, 
     [Status] VARCHAR(50) NOT NULL, 

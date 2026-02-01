@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[PostTags]
 (
-	[PostId] INT NOT NULL, 
+	[PostId] BIGINT NOT NULL, 
     [TagId] INT NOT NULL,
 
 	CONSTRAINT PK_PostTags PRIMARY KEY CLUSTERED ([PostId], [TagId]), 

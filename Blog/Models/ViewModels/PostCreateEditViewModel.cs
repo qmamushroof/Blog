@@ -6,7 +6,7 @@ namespace Blog.Models.ViewModels
 {
     public class PostCreateEditViewModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Required, StringLength(300)]
         public string Title { get; set; } = string.Empty;

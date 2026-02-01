@@ -2,11 +2,11 @@
 {
     public interface IService<T> where T : class
     {
-        Task<T?> GetByIdAsync(int id);
+        Task<T?> GetByIdAsync(long id);
         Task<T?> GetBySlugAsync(string slug);
         Task<IEnumerable<T>> GetAllAsync();
         Task<int> CreateAsync(T entity);
         Task<int> UpdateAsync(T entity);
-        Task<int> DeleteByIdAsync(int id);
+        Task<int> DeleteByIdAsync(long id);
     }
 }

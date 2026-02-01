@@ -5,7 +5,7 @@ namespace Blog.Models.Entities
 {
     public class Post
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public string Title { get; set; } = string.Empty;
         public string Slug { get; set; } = string.Empty;

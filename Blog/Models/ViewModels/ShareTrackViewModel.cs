@@ -4,7 +4,7 @@ namespace Blog.Models.ViewModels
 {
     public class ShareTrackViewModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public string PostTitle { get; set; } = string.Empty;
 
@@ -15,6 +15,6 @@ namespace Blog.Models.ViewModels
 
         public string? UserIp { get; set; }
 
-        public int PostId { get; set; }
+        public long PostId { get; set; }
     }
 }

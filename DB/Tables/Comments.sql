@@ -1,9 +1,9 @@
 ﻿CREATE TABLE [dbo].[Comments]
 (
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
-    [PostId] INT NOT NULL, 
-    [ParentCommentId] INT NULL, 
-    [AuthorId] INT NULL, 
+	[Id] BIGINT NOT NULL PRIMARY KEY IDENTITY,
+    [PostId] BIGINT NOT NULL, 
+    [ParentCommentId] BIGINT NULL, 
+    [AuthorId] VARCHAR(100) NULL, 
     [Content] NVARCHAR(1000) NOT NULL,
     [Status] TINYINT NOT NULL,
     [CreatedAt] DATETIME2(0) NOT NULL,

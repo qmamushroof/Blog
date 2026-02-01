@@ -10,7 +10,7 @@ namespace Blog.Repositories
         private readonly ApplicationDbContext _context;
         public TagRepository(ApplicationDbContext context) : base(context) => _context = context;
 
-        public override async Task<Tag?> GetByIdAsync(int id) => await _context.Tags
+        public override async Task<Tag?> GetByIdAsync(long id) => await _context.Tags
             .Include(p => p.PostTags).ThenInclude(pt => pt.Post)
             .FirstOrDefaultAsync(p => p.Id == id);
 

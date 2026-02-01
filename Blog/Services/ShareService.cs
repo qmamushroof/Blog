@@ -16,7 +16,7 @@ namespace Blog.Services
             _postService = postService;
         }
 
-        private async Task<int> IncrementShareCountAsync(int postId)
+        private async Task<int> IncrementShareCountAsync(long postId)
         {
             var post = await _postService.GetByIdAsync(postId);
             post!.ShareCount++;

@@ -9,7 +9,7 @@ namespace Blog.Services
 
         public Service(IRepository<T> repository) => _repository = repository;
 
-        public async Task<T?> GetByIdAsync(int id) => await _repository.GetByIdAsync(id);
+        public async Task<T?> GetByIdAsync(long id) => await _repository.GetByIdAsync(id);
 
         public async Task<T?> GetBySlugAsync(string slug) => await _repository.GetBySlugAsync(slug);
 
@@ -27,7 +27,7 @@ namespace Blog.Services
             return await _repository.SaveChangesAsync();
         }
 
-        public async Task<int> DeleteByIdAsync(int id)
+        public async Task<int> DeleteByIdAsync(long id)
         {
             var entity = await GetByIdAsync(id);
             _repository.Remove(entity!);

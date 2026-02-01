@@ -15,7 +15,7 @@ namespace Blog.Repositories
             _dbSet = context.Set<T>();
         }
 
-        public virtual async Task<T?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
+        public virtual async Task<T?> GetByIdAsync(long id) => await _dbSet.FindAsync(id);
         public virtual async Task<T?> GetBySlugAsync(string slug) => await _dbSet.FindAsync(slug);
         public virtual async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
         public async Task AddAsync(T entity) => await _dbSet.AddAsync(entity);
