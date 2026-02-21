@@ -3,7 +3,6 @@ using Blog.Models.Entities;
 using Blog.Models.Enums;
 using Blog.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
 namespace Blog.Repositories
 {
