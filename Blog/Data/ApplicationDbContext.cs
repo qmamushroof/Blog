@@ -6,9 +6,7 @@ namespace Blog.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Post> Posts { get; set; }
         public DbSet<Category> Categories { get; set; }
