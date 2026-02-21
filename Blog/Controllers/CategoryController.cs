@@ -22,7 +22,7 @@ namespace Blog.Controllers
                     Id = category.Id,
                     Name = category.Name,
                     Description = category.Description,
-                    PostCount = await _categoryService.CountPublishedPostsByCategoryIdAsync(category.Id)
+                    PostCount = category.PostCount
                 };
 
                 categoriesViewModel.Add(viewModel);
@@ -52,7 +52,8 @@ namespace Blog.Controllers
             var category = new Category
             {
                 Name = viewModel.Name,
-                Description = viewModel.Description
+                Description = viewModel.Description,
+                DisplayOrder = viewModel.DisplayOrder
             };
             await _categoryService.CreateAsync(category);
             return View();
@@ -77,7 +78,8 @@ namespace Blog.Controllers
             var category = new Category
             {
                 Name = viewModel.Name,
-                Description = viewModel.Description
+                Description = viewModel.Description,
+                DisplayOrder = viewModel.DisplayOrder
             };
             await _categoryService.UpdateAsync(category);
             return View();

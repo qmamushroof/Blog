@@ -11,6 +11,6 @@ namespace Blog.Models.ViewModels
 
         public ICollection<Post>? Posts { get; set; }
 
-        public int PostCount { get; set; }
+        public int? PostCount { get; set; }
     }
 }
