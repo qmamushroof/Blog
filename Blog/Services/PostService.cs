@@ -23,8 +23,16 @@ namespace Blog.Services
             var checkedPosts = new List<Post>();
             foreach (var post in uncheckedPosts)
             {
-                if (post.ScheduledAt != null && post.ScheduledAt < DateTime.UtcNow) post.Status = PostStatus.Published;
-                if (post.Deadline != null && post.Deadline < DateTime.UtcNow) post.Status = PostStatus.Expired;
+                if (post.ScheduledAt != null && post.ScheduledAt < DateTime.UtcNow && post.Status != PostStatus.Published)
+                {
+                    post.Status = PostStatus.Published;
+                    post.Category.PublishedPostCount++;
+                }
+                if (post.Deadline != null && post.Deadline < DateTime.UtcNow && post.Status != PostStatus.Expired)
+                {
+                    post.Status = PostStatus.Expired;
+                    post.Category.PublishedPostCount--;
+                }
                 await UpdateAsync(post);
                 checkedPosts.Add(post);
             }
@@ -76,10 +84,13 @@ namespace Blog.Services
             //post.AuthorId = ApplicationUser.GetUserId();
             post.CreatedAt = DateTime.UtcNow;
             post.UpdatedAt = DateTime.UtcNow;
+
+            if (post.Status == PostStatus.Published && post.Category != null) post.Category.PublishedPostCount++;
+
             await _postRepository.AddAsync(post);
             await _postRepository.SaveChangesAsync();
 
-            post.HeaderImageUrl = await _fileService.UploadImageAsync(headerImageFile!, post.HeaderImageUrl);
+            post.HeaderImageUrl = await _fileService.UploadImageAsync(headerImageFile, post.HeaderImageUrl);
 
             await _postRepository.SyncTagsAsync(post, selectedTagIds);
             return await _postRepository.SaveChangesAsync();
@@ -93,6 +104,13 @@ namespace Blog.Services
 
             post.UpdatedAt = DateTime.UtcNow;
 
+            // Update logic needs to use previous status and category of the post to calculate the PublishedPostCount under category
+
+            //if (post.Category != null)
+            //{
+            //    if (post.Status == PostStatus.Published) post.Category.PublishedPostCount++; ;
+            //}
+
             _postRepository.Update(post);
             await _postRepository.SyncTagsAsync(post, selectedTagIds);
             return await _postRepository.SaveChangesAsync();
@@ -103,6 +121,9 @@ namespace Blog.Services
             var post = await _postRepository.GetByIdAsync(id);
             post!.Status = PostStatus.SoftDeleted;
             post.SoftDeletedAt = DateTime.UtcNow;
+
+            if (post.Category != null) post.Category.PublishedPostCount--;
+
             return await _postRepository.SaveChangesAsync();
         }
 

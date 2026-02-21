@@ -22,7 +22,7 @@ namespace Blog.Controllers
                     Id = category.Id,
                     Name = category.Name,
                     Description = category.Description,
-                    PostCount = category.PostCount
+                    PublishedPostCount = category.PublishedPostCount
                 };
 
                 categoriesViewModel.Add(viewModel);
@@ -38,7 +38,7 @@ namespace Blog.Controllers
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
-                PostCount = await _categoryService.CountPublishedPostsByCategoryIdAsync(category.Id),
+                PublishedPostCount = category.PublishedPostCount,
                 Posts = await _categoryService.GetPublishedPostsByCategoryIdAsync(id)
             };
             return View(viewModel);
@@ -67,7 +67,8 @@ namespace Blog.Controllers
             {
                 Id = category.Id,
                 Name = category.Name,
-                Description = category.Description
+                Description = category.Description,
+                DisplayOrder = category.DisplayOrder
             };
             return View(viewModel);
         }

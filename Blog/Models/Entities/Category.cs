@@ -10,7 +10,7 @@ namespace Blog.Models.Entities
         public string? Description { get; set; }
         public string Slug { get; set; } = string.Empty;
         
-        public int? PostCount { get; set; }
+        public int? PublishedPostCount { get; set; }
         
         public int? DisplayOrder { get; set; }
 

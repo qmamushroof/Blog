@@ -9,7 +9,7 @@ namespace Blog.Data.Seeding
         public static void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>().HasData(
-                new Category { Id = 1, Name = "Student Visas", Slug = "student-visas", Description = "All about student visa processes", PostCount = 1 },
+                new Category { Id = 1, Name = "Student Visas", Slug = "student-visas", Description = "All about student visa processes", PublishedPostCount = 1 },
                 new Category { Id = 2, Name = "University Applications", Slug = "university-applications" },
                 new Category { Id = 3, Name = "Scholarships", Slug = "scholarships" }
             );

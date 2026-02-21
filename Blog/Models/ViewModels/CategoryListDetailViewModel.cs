@@ -1,4 +1,5 @@
 ﻿using Blog.Models.Entities;
+using System.ComponentModel;
 
 namespace Blog.Models.ViewModels
 {
@@ -11,6 +12,7 @@ namespace Blog.Models.ViewModels
 
         public ICollection<Post>? Posts { get; set; }
 
-        public int? PostCount { get; set; }
+        [DisplayName("Published Post Count")]
+        public int? PublishedPostCount { get; set; }
     }
 }
