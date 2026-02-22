@@ -131,7 +131,7 @@ namespace Blog.Services
         {
             var post = await _postRepository.GetByIdAsync(id);
 
-            if (post.Status == PostStatus.Published && post.Category != null) post.Category.PublishedPostCount--; // If currently published, decrease the published post count of the category before soft deleting it
+            if (post.Status == PostStatus.Published && post.Category != null) post.Category.PublishedPostCount--;
 
             post.Status = PostStatus.SoftDeleted;
             post.SoftDeletedAt = DateTime.UtcNow;
