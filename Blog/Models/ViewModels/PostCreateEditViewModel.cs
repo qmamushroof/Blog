@@ -13,7 +13,7 @@ namespace Blog.Models.ViewModels
         [Required]
         public string Content { get; set; } = string.Empty;
 
-        public PostStatus Status { get; set; } = PostStatus.Draft;
+        public PostStatus Status { get; set; }
         public PostPriority Priority { get; set; } = PostPriority.Normal;
 
         public DateTime? ScheduledAt { get; set; }

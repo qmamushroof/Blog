@@ -72,11 +72,9 @@ namespace Blog.Services
             return filteredPosts;
         }
 
-        public async Task<ICollection<Post>> GetPinnedPostsAsync()
-            => await GetTopPostsByPriorityAsync(PostPriority.Pinned);
+        public async Task<ICollection<Post>> GetPinnedPostsAsync() => await GetTopPostsByPriorityAsync(PostPriority.Pinned);
 
-        public async Task<ICollection<Post>> GetHotPostsAsync()
-            => await GetTopPostsByPriorityAsync(PostPriority.Hot);
+        public async Task<ICollection<Post>> GetHotPostsAsync() => await GetTopPostsByPriorityAsync(PostPriority.Hot);
 
         public async Task<int> CreateAsync(Post post, ICollection<int> selectedTagIds, IFormFile? headerImageFile = null)
         {
@@ -96,30 +94,46 @@ namespace Blog.Services
             return await _postRepository.SaveChangesAsync();
         }
 
-        public async Task<int> UpdateAsync(Post post, ICollection<int> selectedTagIds, IFormFile? headerImageFile = null)
+        public async Task<int> UpdateAsync(Post updatedPost, ICollection<int> selectedTagIds, IFormFile? headerImageFile = null)
         {
-            post.Slug = GenerateSlug(post);
+            updatedPost.Slug = GenerateSlug(updatedPost);
+            updatedPost.HeaderImageUrl = await _fileService.UploadImageAsync(headerImageFile!, updatedPost.HeaderImageUrl);
+            updatedPost.UpdatedAt = DateTime.UtcNow;
 
-            post.HeaderImageUrl = await _fileService.UploadImageAsync(headerImageFile!, post.HeaderImageUrl);
+            var existingPost = await _postRepository.GetByIdAsync(updatedPost.Id);
+            await ManagePublishedPostCount(updatedPost, existingPost); // Recalculate the PublishedPostCount of a category using previous status+category of the post 
 
-            post.UpdatedAt = DateTime.UtcNow;
-
-            // Update logic needs to use previous status and category of the post to calculate the PublishedPostCount under category
-
-            //if (post.Category != null)
-            //{
-            //    if (post.Status == PostStatus.Published) post.Category.PublishedPostCount++; ;
-            //}
-
-            _postRepository.Update(post);
-            await _postRepository.SyncTagsAsync(post, selectedTagIds);
+            _postRepository.Update(updatedPost);
+            await _postRepository.SyncTagsAsync(updatedPost, selectedTagIds);
             return await _postRepository.SaveChangesAsync();
+        }
+
+        private async Task ManagePublishedPostCount(Post updatedPost, Post existingPost)
+        {
+            if (updatedPost.Category != existingPost.Category)
+            {
+                if (existingPost.Status == PostStatus.Published && existingPost.Category != null) existingPost.Category.PublishedPostCount--;
+
+                if (updatedPost.Status == PostStatus.Published && updatedPost.Category != null) updatedPost.Category.PublishedPostCount++;
+            }
+            else
+            {
+                if (updatedPost.Category != null)
+                {
+                    if (existingPost.Status != PostStatus.Published && updatedPost.Status == PostStatus.Published) updatedPost.Category.PublishedPostCount++;
+
+                    else if (existingPost.Status == PostStatus.Published && updatedPost.Status != PostStatus.Published) updatedPost.Category.PublishedPostCount--;
+                }
+            }
         }
 
         public async Task<int> SoftDeletePostByIdAsync(int id)
         {
             var post = await _postRepository.GetByIdAsync(id);
-            post!.Status = PostStatus.SoftDeleted;
+
+            if (post.Status == PostStatus.Published && post.Category != null) post.Category.PublishedPostCount--; // If currently published, decrease the published post count of the category before soft deleting it
+
+            post.Status = PostStatus.SoftDeleted;
             post.SoftDeletedAt = DateTime.UtcNow;
 
             if (post.Category != null) post.Category.PublishedPostCount--;
