@@ -11,8 +11,6 @@ namespace Blog.Services
 
         public async Task<T?> GetByIdAsync(long id) => await _repository.GetByIdAsync(id);
 
-        public async Task<T?> GetBySlugAsync(string slug) => await _repository.GetBySlugAsync(slug);
-
         public async Task<IEnumerable<T>> GetAllAsync() => await _repository.GetAllAsync();
 
         public virtual async Task<int> CreateAsync(T entity)

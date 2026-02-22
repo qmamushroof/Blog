@@ -1,5 +1,6 @@
 ﻿using Blog.Models.Entities;
 using Blog.Models.Enums;
+using Blog.Repositories;
 using Blog.Repositories.Interfaces;
 using Blog.Services.Interfaces;
 
@@ -16,34 +17,36 @@ namespace Blog.Services
             _fileService = fileService;
         }
 
+        public async Task<Post?> GetBySlugAsync(string slug) => await _postRepository.GetBySlugAsync(slug);
         private ICollection<Post> OrderByPublishDate(ICollection<Post> posts) => posts.OrderByDescending(p => p.PublishedAt).ToList();
 
-        public async Task<ICollection<Post>> ManageOverduePostsAsync(ICollection<Post> uncheckedPosts)
+        public async Task ManageOverduePostsAsync(ICollection<Post> uncheckedPosts)
         {
-            var checkedPosts = new List<Post>();
             foreach (var post in uncheckedPosts)
             {
+                bool statusChanged = false;
                 if (post.ScheduledAt != null && post.ScheduledAt < DateTime.UtcNow && post.Status != PostStatus.Published)
                 {
                     post.Status = PostStatus.Published;
                     if (post.Category != null) post.Category.PublishedPostCount++;
+                    statusChanged = true;
                 }
                 if (post.Deadline != null && post.Deadline < DateTime.UtcNow && post.Status != PostStatus.Expired)
                 {
                     post.Status = PostStatus.Expired;
                     if (post.Category != null) post.Category.PublishedPostCount--;
+                    statusChanged = true;
                 }
-                await UpdateAsync(post);
-                checkedPosts.Add(post);
+
+                if (statusChanged) _postRepository.Update(post);
             }
-            return checkedPosts;
         }
 
         public async Task<ICollection<Post>> GetPostsByStatusAsync(PostStatus status)
         {
-            var uncheckedPosts = await _postRepository.GetPostsByStatusAsync(status);
-            var checkedPosts = await ManageOverduePostsAsync(uncheckedPosts);
-            var orderedPosts = OrderByPublishDate(checkedPosts);
+            var posts = await _postRepository.GetPostsByStatusAsync(status);
+            await ManageOverduePostsAsync(posts);
+            var orderedPosts = OrderByPublishDate(posts);
             return orderedPosts;
         }
 
@@ -59,9 +62,9 @@ namespace Blog.Services
 
         public async Task<ICollection<Post>> GetPostsByPriorityAsync(PostPriority priority)
         {
-            var uncheckedPosts = await _postRepository.GetPostsByPriorityAsync(priority);
-            var checkedPosts = await ManageOverduePostsAsync(uncheckedPosts);
-            var orderedPosts = OrderByPublishDate(checkedPosts);
+            var posts = await _postRepository.GetPostsByPriorityAsync(priority);
+            await ManageOverduePostsAsync(posts);
+            var orderedPosts = OrderByPublishDate(posts);
             return orderedPosts;
         }
 
@@ -97,7 +100,7 @@ namespace Blog.Services
         public async Task<int> UpdateAsync(Post updatedPost, ICollection<int> selectedTagIds, IFormFile? headerImageFile = null)
         {
             updatedPost.Slug = GenerateSlug(updatedPost);
-            updatedPost.HeaderImageUrl = await _fileService.UploadImageAsync(headerImageFile!, updatedPost.HeaderImageUrl);
+            updatedPost.HeaderImageUrl = await _fileService.UploadImageAsync(headerImageFile, updatedPost.HeaderImageUrl);
             updatedPost.UpdatedAt = DateTime.UtcNow;
 
             var existingPost = await _postRepository.GetByIdAsync(updatedPost.Id);

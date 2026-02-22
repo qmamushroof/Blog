@@ -1,5 +1,6 @@
 ﻿using Blog.Models.Entities;
 using Blog.Models.Enums;
+using Blog.Repositories;
 using Blog.Repositories.Interfaces;
 using Blog.Services.Interfaces;
 
@@ -16,14 +17,16 @@ namespace Blog.Services
             _postService = postService;
         }
 
+        public async Task<Category?> GetBySlugAsync(string slug) => await _categoryRepository.GetBySlugAsync(slug);
+
         public async Task<ICollection<Post>> GetPostsByCategoryIdAsync(int id)
         {
-            var uncheckedPosts = (await _postService.GetAllAsync())
+            var posts = (await _postService.GetAllAsync())
                 .Where(p => p.CategoryId == id)
                 .ToList();
 
-            var checkedPosts = await _postService.ManageOverduePostsAsync(uncheckedPosts);
-            return checkedPosts;
+            await _postService.ManageOverduePostsAsync(posts);
+            return posts;
         }
 
         public async Task<ICollection<Post>> GetPublishedPostsByCategoryIdAsync(int id)

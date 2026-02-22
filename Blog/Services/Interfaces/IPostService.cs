@@ -5,7 +5,8 @@ namespace Blog.Services.Interfaces
 {
     public interface IPostService : IService<Post>
     {
-        Task<ICollection<Post>> ManageOverduePostsAsync(ICollection<Post> posts);
+        Task<Post?> GetBySlugAsync(string slug);
+        Task ManageOverduePostsAsync(ICollection<Post> posts); // Automatically publish and unpublish posts based on their scheduled and deadline times
         Task<ICollection<Post>> GetPostsByStatusAsync(PostStatus status);
         Task<Post?> GetPublishedPostByIdAsync(long id);
         Task<ICollection<Post>> GetPublishedPostsAsync();

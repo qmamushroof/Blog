@@ -5,6 +5,7 @@ namespace Blog.Repositories.Interfaces
 {
     public interface IPostRepository : IRepository<Post>
     {
+        Task<Post?> GetBySlugAsync(string slug);
         Task<ICollection<Post>> GetPostsByStatusAsync(PostStatus status);
         Task<ICollection<Post>> GetPostsByPriorityAsync(PostPriority priority);
         Task SyncTagsAsync(Post post, ICollection<int>? selectedTagIds);

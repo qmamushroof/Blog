@@ -1,5 +1,6 @@
 ﻿using Blog.Models.Entities;
 using Blog.Models.Enums;
+using Blog.Repositories;
 using Blog.Repositories.Interfaces;
 using Blog.Services.Interfaces;
 
@@ -16,21 +17,23 @@ namespace Blog.Services
             _postService = postService;
         }
 
+        public async Task<Tag?> GetBySlugAsync(string slug) => await _tagRepository.GetBySlugAsync(slug);
+
         public async Task<ICollection<Post>> GetPostsByTagIdAsync(int id)
         {
             var tag = await GetByIdAsync(id);
             var postIds = tag!.PostTags.Select(pt => pt.PostId).ToList();
 
-            var uncheckedPosts = new List<Post>();
+            var posts = new List<Post>();
 
             foreach (int postId in postIds)
             {
                 var post = await _postService.GetByIdAsync(postId);
-                uncheckedPosts.Add(post!);
+                posts.Add(post);
             }
 
-            var checkedPosts = await _postService.ManageOverduePostsAsync(uncheckedPosts);
-            return checkedPosts;
+            await _postService.ManageOverduePostsAsync(posts);
+            return posts;
         }
 
         public async Task<ICollection<Post>> GetPublishedPostsByTagIdAsync(int id)

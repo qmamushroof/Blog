@@ -17,7 +17,7 @@ namespace Blog.Repositories
             .Include(p => p.PostTags).ThenInclude(pt => pt.Tag)
             .FirstOrDefaultAsync(p => p.Id == id);
 
-        public override async Task<Post?> GetBySlugAsync(string slug) => await _context.Posts
+        public async Task<Post?> GetBySlugAsync(string slug) => await _context.Posts
             .Include(p => p.Category)
             .Include(p => p.PostTags).ThenInclude(pt => pt.Tag)
             .FirstOrDefaultAsync(p => p.Slug == slug);

@@ -4,5 +4,6 @@ namespace Blog.Repositories.Interfaces
 {
     public interface ITagRepository : IRepository<Tag>
     {
+        Task<Tag?> GetBySlugAsync(string slug);
     }
 }

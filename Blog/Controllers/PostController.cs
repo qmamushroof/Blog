@@ -33,8 +33,8 @@ namespace Blog.Controllers
                     Title = post.Title,
                     Excerpt = post.Content.Length > 300 ? post.Content.Substring(0, 300) + "..." : post.Content,
                     HeaderImageUrl = post.HeaderImageUrl,
-                    Author = post.AuthorId ?? "Quazi Mushroof Abdullah",
-                    Category = post.Category!.Name ?? "Uncategorized",
+                    Author = post.AuthorId,
+                    CategoryName = post.Category!.Name ?? "Uncategorized",
                     CreatedAt = post.CreatedAt,
                     UpdatedAt = post.UpdatedAt,
                     ScheduledAt = post.ScheduledAt.GetValueOrDefault(),
@@ -61,8 +61,8 @@ namespace Blog.Controllers
                     Id = post.Id,
                     Title = post.Title,
                     Excerpt = post.Content.Length > 300 ? post.Content.Substring(0, 300) + "..." : post.Content,
-                    Author = post.AuthorId ?? "Quazi Mushroof Abdullah",
-                    Category = post.Category!.Name ?? "Uncategorized",
+                    Author = post.AuthorId,
+                    CategoryName = post.Category!.Name ?? "Uncategorized",
                     PublishedAt = post.PublishedAt.GetValueOrDefault(),
                     HeaderImageUrl = post.HeaderImageUrl,
                     Tags = post.PostTags.Select(pt => pt.Tag!.Name ?? "Untagged").ToList(),
@@ -84,7 +84,7 @@ namespace Blog.Controllers
                 Content = post.Content,
                 HeaderImageUrl = post.HeaderImageUrl,
                 Author = post.AuthorId,
-                Category = post.Category.ToString(),
+                CategoryName = post.Category.Name,
                 PublishedAt = post.PublishedAt,
                 Tags = post.PostTags.Select(pt => pt.Tag.Name ?? "Untagged").ToList(),
                 ShareCount = post.ShareCount
@@ -123,7 +123,7 @@ namespace Blog.Controllers
                 CategoryId = viewModel.CategoryId
             };
             await _postService.CreateAsync(post, viewModel.SelectedTagIds, viewModel.HeaderImageFile);
-            return View();
+            return RedirectToAction();
         }
 
         public async Task<IActionResult> PostEdit(int id)
@@ -171,14 +171,14 @@ namespace Blog.Controllers
                 CategoryId = viewModel.CategoryId
             };
             await _postService.UpdateAsync(post, viewModel.SelectedTagIds, viewModel.HeaderImageFile);
-            return View();
+            return RedirectToAction();
         }
 
         [HttpPost]
         public async Task<IActionResult> PostDelete(int id)
         {
-            var post = _postService.SoftDeletePostByIdAsync(id);
-            return View();
+            var post = await _postService.SoftDeletePostByIdAsync(id);
+            return RedirectToAction();
         }
 
         [HttpPost("Upload/Image/Content")]

@@ -9,5 +9,7 @@ namespace Blog.Repositories
     {
         private readonly ApplicationDbContext _context;
         public CategoryRepository(ApplicationDbContext context) : base(context) => _context = context;
+        public async Task<Category?> GetBySlugAsync(string slug) => await _context.Categories
+            .FirstOrDefaultAsync(p => p.Slug == slug);
     }
 }

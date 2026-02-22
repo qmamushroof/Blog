@@ -1,4 +1,7 @@
-﻿namespace Blog.Models.ViewModels
+﻿using Blog.Models.Entities;
+using System.ComponentModel;
+
+namespace Blog.Models.ViewModels
 {
     public class PostListViewModel
     {
@@ -7,8 +10,8 @@
         public string Title { get; set; } = string.Empty;
         public string Excerpt { get; set; } = string.Empty;
         public string Author { get; set; } = string.Empty;
-
-        public string Category { get; set; } = string.Empty;
+        [DisplayName(nameof(Category))]
+        public string CategoryName { get; set; } = string.Empty;
 
         public DateTime PublishedAt { get; set; }
 
