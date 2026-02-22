@@ -26,12 +26,12 @@ namespace Blog.Services
                 if (post.ScheduledAt != null && post.ScheduledAt < DateTime.UtcNow && post.Status != PostStatus.Published)
                 {
                     post.Status = PostStatus.Published;
-                    post.Category.PublishedPostCount++;
+                    if (post.Category != null) post.Category.PublishedPostCount++;
                 }
                 if (post.Deadline != null && post.Deadline < DateTime.UtcNow && post.Status != PostStatus.Expired)
                 {
                     post.Status = PostStatus.Expired;
-                    post.Category.PublishedPostCount--;
+                    if (post.Category != null) post.Category.PublishedPostCount--;
                 }
                 await UpdateAsync(post);
                 checkedPosts.Add(post);
