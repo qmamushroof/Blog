@@ -82,8 +82,7 @@ namespace Blog.Services
         {
             post.Slug = GenerateSlug(post);
             //post.AuthorId = ApplicationUser.GetUserId();
-            post.CreatedAt = DateTime.UtcNow;
-            post.UpdatedAt = DateTime.UtcNow;
+            post.CreatedAt = post.UpdatedAt = DateTime.UtcNow;
 
             if (post.Status == PostStatus.Published && post.Category != null) post.Category.PublishedPostCount++;
 
