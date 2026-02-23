@@ -14,7 +14,8 @@ namespace Blog.Services
         public async Task<int> UnsubscribeByIdAsync(int id)
         {
             var subscriber = await GetByIdAsync(id);
-            subscriber!.Status = SubscriptionStatus.Unsubscribed;
+            if (subscriber is null) return 0;
+            subscriber.Status = SubscriptionStatus.Unsubscribed;
             subscriber.UnsubscribedAt = DateTime.UtcNow;
             return await _subscriberRepository.SaveChangesAsync();
         }

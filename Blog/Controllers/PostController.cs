@@ -94,7 +94,14 @@ namespace Blog.Controllers
 
         public async Task<IActionResult> PostCreate()
         {
-            var viewModel = new PostCreateEditViewModel
+            var viewModel = new PostCreateEditViewModel();
+            await PopulatePostFormOptions(viewModel);
+            return View(viewModel);
+        }
+
+        private async Task PopulatePostFormOptions(PostCreateEditViewModel viewModel)
+        {
+            viewModel = new PostCreateEditViewModel
             {
                 Categories = (await _categoryService.GetAllAsync())
                 .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
@@ -106,7 +113,6 @@ namespace Blog.Controllers
                 .OrderBy(t => t.Text)
                 .ToList(),
             };
-            return View(viewModel);
         }
 
         [HttpPost]
@@ -142,18 +148,9 @@ namespace Blog.Controllers
                 Deadline = post.Deadline,
                 CategoryId = post.CategoryId,
 
-                Categories = (await _categoryService.GetAllAsync())
-                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
-                .OrderBy(c => c.Text)
-                .ToList(),
-
-                SelectedTagIds = post.PostTags.Select(pt => pt.TagId).ToList(),
-
-                Tags = (await _tagService.GetAllAsync())
-                .Select(t => new SelectListItem { Value = t.Id.ToString(), Text = t.Name })
-                .OrderBy(t => t.Text)
-                .ToList()
+                SelectedTagIds = post.PostTags.Select(pt => pt.TagId).ToList()
             };
+            await PopulatePostFormOptions(viewModel);
             return View(viewModel);
         }
 
@@ -177,7 +174,7 @@ namespace Blog.Controllers
         [HttpPost]
         public async Task<IActionResult> PostDelete(int id)
         {
-            var post = await _postService.SoftDeletePostByIdAsync(id);
+            await _postService.SoftDeletePostByIdAsync(id);
             return RedirectToAction();
         }
 

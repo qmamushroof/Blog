@@ -28,7 +28,7 @@ namespace Blog.Services
             foreach (int postId in postIds)
             {
                 var post = await _postService.GetByIdAsync(postId);
-                posts.Add(post);
+                if (post is not null) posts.Add(post);
             }
 
             await _postService.ManageOverduePostsAsync(posts);

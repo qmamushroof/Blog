@@ -9,6 +9,5 @@ namespace Blog.Services.Interfaces
         Task<ICollection<Post>> GetPublishedPostsByCategoryIdAsync(int id);
         string GetFullUrl(Category category);
         Task<int> CountSubmittedPostsByCategoryIdAsync(int id);
-        Task<int> CountPublishedPostsByCategoryIdAsync(int id);
     }
 }

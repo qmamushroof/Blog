@@ -28,7 +28,8 @@ namespace Blog.Services
         public async Task<int> DeleteByIdAsync(long id)
         {
             var entity = await GetByIdAsync(id);
-            _repository.Remove(entity!);
+            if (entity is null) return 0;
+            _repository.Remove(entity);
             return await _repository.SaveChangesAsync();
         }
     }

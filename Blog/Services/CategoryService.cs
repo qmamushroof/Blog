@@ -58,11 +58,5 @@ namespace Blog.Services
             var categories = await GetPostsByCategoryIdAsync(id);
             return categories.Count;
         }
-
-        public async Task<int> CountPublishedPostsByCategoryIdAsync(int id)
-        {
-            var categories = await GetPublishedPostsByCategoryIdAsync(id);
-            return categories.Count;
-        }
     }
 }
