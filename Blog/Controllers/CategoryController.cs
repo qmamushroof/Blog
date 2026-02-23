@@ -33,6 +33,8 @@ namespace Blog.Controllers
         public async Task<IActionResult> CategoryDetail(int id)
         {
             var category = await _categoryService.GetByIdAsync(id);
+            if (category is null) return NotFound();
+
             var viewModel = new CategoryListDetailViewModel
             {
                 Id = category.Id,
@@ -62,6 +64,7 @@ namespace Blog.Controllers
         public async Task<IActionResult> CategoryEdit(int id)
         {
             var category = await _categoryService.GetByIdAsync(id);
+            if (category is null) return NotFound();
 
             var viewModel = new CategoryCreateEditViewModel
             {

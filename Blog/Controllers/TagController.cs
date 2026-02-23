@@ -33,6 +33,8 @@ namespace Blog.Controllers
         public async Task<IActionResult> TagDetail(int id)
         {
             var tag = await _tagService.GetByIdAsync(id);
+            if (tag is null) return NotFound();
+
             var viewModel = new TagListDetailViewModel
             {
                 Id = tag.Id,
@@ -61,6 +63,7 @@ namespace Blog.Controllers
         public async Task<IActionResult> TagEdit(int id)
         {
             var tag = await _tagService.GetByIdAsync(id);
+            if (tag is null) return NotFound();
 
             var viewModel = new TagCreateEditViewModel
             {

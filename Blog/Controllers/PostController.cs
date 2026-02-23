@@ -27,14 +27,16 @@ namespace Blog.Controllers
             var postsViewModel = new List<PostAdminListViewModel>();
             foreach (var post in posts)
             {
+                if (post is null) continue;
+
                 var viewModel = new PostAdminListViewModel
                 {
                     Id = post.Id,
                     Title = post.Title,
                     Excerpt = post.Content.Length > 300 ? post.Content.Substring(0, 300) + "..." : post.Content,
                     HeaderImageUrl = post.HeaderImageUrl,
-                    Author = post.AuthorId,
-                    CategoryName = post.Category!.Name ?? "Uncategorized",
+                    Author = post.AuthorId ?? "Unnamed",
+                    CategoryName = post.Category?.Name ?? "Uncategorized",
                     CreatedAt = post.CreatedAt,
                     UpdatedAt = post.UpdatedAt,
                     ScheduledAt = post.ScheduledAt.GetValueOrDefault(),
@@ -61,11 +63,11 @@ namespace Blog.Controllers
                     Id = post.Id,
                     Title = post.Title,
                     Excerpt = post.Content.Length > 300 ? post.Content.Substring(0, 300) + "..." : post.Content,
-                    Author = post.AuthorId,
-                    CategoryName = post.Category!.Name ?? "Uncategorized",
+                    Author = post.AuthorId ?? "Unnamed",
+                    CategoryName = post.Category?.Name ?? "Uncategorized",
                     PublishedAt = post.PublishedAt.GetValueOrDefault(),
                     HeaderImageUrl = post.HeaderImageUrl,
-                    Tags = post.PostTags.Select(pt => pt.Tag!.Name ?? "Untagged").ToList(),
+                    Tags = post.PostTags.Select(pt => pt.Tag?.Name ?? "Untagged").ToList(),
                     ShareCount = post.ShareCount
                 };
 
@@ -77,6 +79,8 @@ namespace Blog.Controllers
         public async Task<IActionResult> PostDetail(int id)
         {
             var post = await _postService.GetByIdAsync(id);
+            if (post is null) return NotFound();
+
             var viewModel = new PostDetailViewModel
             {
                 Id = post.Id,
@@ -84,9 +88,9 @@ namespace Blog.Controllers
                 Content = post.Content,
                 HeaderImageUrl = post.HeaderImageUrl,
                 Author = post.AuthorId,
-                CategoryName = post.Category.Name,
+                CategoryName = post.Category?.Name ?? "Uncategorized",
                 PublishedAt = post.PublishedAt,
-                Tags = post.PostTags.Select(pt => pt.Tag.Name ?? "Untagged").ToList(),
+                Tags = post.PostTags.Select(pt => pt.Tag?.Name ?? "Untagged").ToList(),
                 ShareCount = post.ShareCount
             };
             return View(viewModel);
@@ -135,6 +139,7 @@ namespace Blog.Controllers
         public async Task<IActionResult> PostEdit(int id)
         {
             var post = await _postService.GetByIdAsync(id);
+            if (post is null) return NotFound();
 
             var viewModel = new PostCreateEditViewModel
             {
