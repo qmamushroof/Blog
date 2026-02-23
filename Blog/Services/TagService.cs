@@ -21,7 +21,9 @@ namespace Blog.Services
         public async Task<ICollection<Post>> GetPostsByTagIdAsync(int id)
         {
             var tag = await GetByIdAsync(id);
-            var postIds = tag!.PostTags.Select(pt => pt.PostId).ToList();
+            if (tag is null) return new List<Post>();
+
+            var postIds = tag.PostTags.Select(pt => pt.PostId).ToList();
 
             var posts = new List<Post>();
 

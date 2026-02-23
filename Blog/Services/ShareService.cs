@@ -16,14 +16,6 @@ namespace Blog.Services
             _postService = postService;
         }
 
-        private async Task<int> IncrementShareCountAsync(long postId)
-        {
-            var post = await _postService.GetByIdAsync(postId);
-            if (post is null) return 0;
-            post.ShareCount++;
-            return await _postService.UpdateAsync(post);
-        }
-
         public async Task<ICollection<ShareTrack>> GetSharesByPostIdAsync(int postId)
             => await _shareTrackRepository.GetSharesByPostIdAsync(postId);
 
@@ -44,5 +36,13 @@ namespace Blog.Services
                 "telegram" => $"https://t.me/share/url?url={Uri.EscapeDataString(url)}",
                 _ => url
             };
+
+        private async Task<int> IncrementShareCountAsync(long postId)
+        {
+            var post = await _postService.GetByIdAsync(postId);
+            if (post is null) return 0;
+            post.ShareCount++;
+            return await _postService.UpdateAsync(post);
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace Blog.Services
 
         public async Task<string?> UploadImageAsync(IFormFile file, string? existingUrl = null)
         {
-            if (file == null || file.Length == 0) return existingUrl;
+            if (file is null || file.Length == 0) return existingUrl;
 
             if (!file.ContentType.StartsWith("image/")) throw new ArgumentException("Only images allowed.");
             if (file.Length > 5 * 1024 * 1024) throw new ArgumentException("Max limit is 5 MB.");

@@ -102,6 +102,8 @@ namespace Blog.Services
             updatedPost.UpdatedAt = DateTime.UtcNow;
 
             var existingPost = await _postRepository.GetByIdAsync(updatedPost.Id);
+            if (existingPost is null) return 0;
+
             await ManagePublishedPostCount(updatedPost, existingPost); // Recalculate the PublishedPostCount of a category using previous status+category of the post 
 
             _postRepository.Update(updatedPost);
@@ -119,7 +121,7 @@ namespace Blog.Services
             }
             else
             {
-                if (updatedPost.Category != null)
+                if (updatedPost.Category is not null)
                 {
                     if (existingPost.Status != PostStatus.Published && updatedPost.Status == PostStatus.Published) updatedPost.Category.PublishedPostCount++;
 
@@ -131,6 +133,7 @@ namespace Blog.Services
         public async Task<int> SoftDeletePostByIdAsync(int id)
         {
             var post = await _postRepository.GetByIdAsync(id);
+            if (post is null) return 0;
 
             if (post.Status == PostStatus.Published && post.Category != null) post.Category.PublishedPostCount--;
 
