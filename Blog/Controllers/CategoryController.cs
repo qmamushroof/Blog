@@ -57,8 +57,10 @@ namespace Blog.Controllers
                 Description = viewModel.Description,
                 DisplayOrder = viewModel.DisplayOrder
             };
-            await _categoryService.CreateAsync(category);
-            return View();
+            int changes = await _categoryService.CreateAsync(category);
+            if (changes == 0) return NotFound();
+
+            return RedirectToAction();
         }
 
         public async Task<IActionResult> CategoryEdit(int id)
@@ -85,8 +87,10 @@ namespace Blog.Controllers
                 Description = viewModel.Description,
                 DisplayOrder = viewModel.DisplayOrder
             };
-            await _categoryService.UpdateAsync(category);
-            return View();
+            int changes = await _categoryService.UpdateAsync(category);
+            if (changes == 0) return NotFound();
+
+            return RedirectToAction();
         }
 
         [HttpPost]

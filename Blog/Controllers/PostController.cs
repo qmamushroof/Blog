@@ -103,25 +103,15 @@ namespace Blog.Controllers
             return View(viewModel);
         }
 
-        private async Task PopulatePostFormOptions(PostCreateEditViewModel viewModel)
-        {
-            viewModel = new PostCreateEditViewModel
-            {
-                Categories = (await _categoryService.GetAllAsync())
-                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
-                .OrderBy(c => c.Text)
-                .ToList(),
-
-                Tags = (await _tagService.GetAllAsync())
-                .Select(t => new SelectListItem { Value = t.Id.ToString(), Text = t.Name })
-                .OrderBy(t => t.Text)
-                .ToList(),
-            };
-        }
-
         [HttpPost]
         public async Task<IActionResult> PostCreate(PostCreateEditViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                await PopulatePostFormOptions(viewModel);
+                return View(viewModel);
+            }
+
             var post = new Post
             {
                 Title = viewModel.Title,
@@ -132,7 +122,9 @@ namespace Blog.Controllers
                 Deadline = viewModel.Deadline,
                 CategoryId = viewModel.CategoryId
             };
-            await _postService.CreateAsync(post, viewModel.SelectedTagIds, viewModel.HeaderImageFile);
+            int changes = await _postService.CreateAsync(post, viewModel.SelectedTagIds, viewModel.HeaderImageFile);
+            if (changes == 0) return NotFound();
+
             return RedirectToAction();
         }
 
@@ -162,6 +154,12 @@ namespace Blog.Controllers
         [HttpPost]
         public async Task<IActionResult> PostEdit(PostCreateEditViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                await PopulatePostFormOptions(viewModel);
+                return View(viewModel);
+            }
+
             var post = new Post
             {
                 Title = viewModel.Title,
@@ -172,19 +170,39 @@ namespace Blog.Controllers
                 Deadline = viewModel.Deadline,
                 CategoryId = viewModel.CategoryId
             };
-            await _postService.UpdateAsync(post, viewModel.SelectedTagIds, viewModel.HeaderImageFile);
+            int changes = await _postService.UpdateAsync(post, viewModel.SelectedTagIds, viewModel.HeaderImageFile);
+            if (changes == 0) return NotFound();
+
             return RedirectToAction();
         }
 
         [HttpPost]
         public async Task<IActionResult> PostDelete(int id)
         {
-            await _postService.SoftDeletePostByIdAsync(id);
+            int changes = await _postService.SoftDeletePostByIdAsync(id);
+            if (changes == 0) return NotFound();
+
             return RedirectToAction();
         }
 
         [HttpPost("Upload/Image/Content")]
         public async Task<IActionResult> UploadContentImage(IFormFile file)
             => Json(new { location = await _fileService.UploadImageAsync(file) });
+
+        private async Task PopulatePostFormOptions(PostCreateEditViewModel viewModel)
+        {
+            viewModel = new PostCreateEditViewModel
+            {
+                Categories = (await _categoryService.GetAllAsync())
+                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
+                .OrderBy(c => c.Text)
+                .ToList(),
+
+                Tags = (await _tagService.GetAllAsync())
+                .Select(t => new SelectListItem { Value = t.Id.ToString(), Text = t.Name })
+                .OrderBy(t => t.Text)
+                .ToList(),
+            };
+        }
     }
 }

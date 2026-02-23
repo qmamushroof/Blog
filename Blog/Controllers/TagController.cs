@@ -56,7 +56,9 @@ namespace Blog.Controllers
                 Name = viewModel.Name,
                 Description = viewModel.Description
             };
-            await _tagService.CreateAsync(tag);
+            int changes = await _tagService.CreateAsync(tag);
+            if (changes == 0) return NotFound();
+
             return View();
         }
 
@@ -82,7 +84,9 @@ namespace Blog.Controllers
                 Name = viewModel.Name,
                 Description = viewModel.Description
             };
-            await _tagService.UpdateAsync(tag);
+            int changes = await _tagService.UpdateAsync(tag);
+            if (changes == 0) return NotFound();
+
             return View();
         }
 
